@@ -47,16 +47,16 @@ namespace RobotConstants {
 constexpr double kVoltageCompentationValue = 11.0;
 
 const units::meter_t kWheelBase =
-    0.6795_m;  // Distance between centers of front and back wheels on robot
+    0.6223_m;  // Distance between centers of front and back wheels on robot
 const units::meter_t kWheelWidth =
-    0.51_m; // Distance between centers of left and right wheels on robot
+    0.6223_m; // Distance between centers of left and right wheels on robot
 
 }
 
 namespace DriveConstants {
 // Driving Parameters - Note that these are not the maximum capable speeds of
 // the robot, rather the allowed maximum speeds
-constexpr units::meters_per_second_t kMaxSpeed = 6.7_mps;
+constexpr units::meters_per_second_t kMaxSpeed = 4.3_mps;
 constexpr units::radians_per_second_t kMaxAngularSpeed{2.0 * std::numbers::pi};
 
 constexpr double kDirectionSlewRate = 6.0;   // radians per second
@@ -92,7 +92,7 @@ constexpr double kFrontRightDriveEncoderOffset = (3.2676) - (std::numbers::pi / 
 constexpr double kBackLeftDriveEncoderOffset =  (2.0477) - (2.0 * std::numbers::pi / 3) + std::numbers::pi + 0.050; //(0.6988 + (std::numbers::pi / 2)); 
 constexpr double kBackRightDriveEncoderOffset = (3.8439 + (std::numbers::pi / 2)) - 0.019; //(2.0472 + (std::numbers::pi)); 
 
-constexpr auto kDriveBaseRadius = 0.4248_m;
+constexpr auto kDriveBaseRadius = 0.46_m;
 
 }  // namespace DriveConstants
 
@@ -261,25 +261,3 @@ namespace BackRightCamera {
 
 } // namespace CameraConstants
 
-namespace ShootingCalculations {
-  /**
-   * @param distance The distance from the goal to the robot
-   * 
-   * @return The angle in radians based off of the curve calculations
-  */
-  double GetAngleFromDistance(double distance);
-
-  /**
-   * @param distance The distance from the goal to the robot
-   * 
-   * @return The speed in RPM based off of the curve calculations
-  */
-  double GetSpeedFromDistance(double distance);
-
-  /**
-   * @param distance The distance from the goal to the robot
-   * 
-   * @return The time in seconds based off of the curve calculations
-  */
-  double GetTimeFromDistnace(double distance);
-}
