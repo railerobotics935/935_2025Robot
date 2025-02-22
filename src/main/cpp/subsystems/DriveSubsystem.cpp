@@ -50,22 +50,22 @@ DriveSubsystem::DriveSubsystem()
         kBackRightDriveEncoderOffset},
 
     m_odometry{m_driveKinematics,
-                -m_gyro.GetAngle(frc::ADIS16470_IMU::kYaw),
+                m_gyro.GetAngle(frc::ADIS16470_IMU::kYaw),
                 {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
                 m_backLeft.GetPosition(), m_backRight.GetPosition()},
-                frc::Pose2d{(units::meter_t)3.0, (units::meter_t)3.0, -m_gyro.GetAngle(frc::ADIS16470_IMU::kYaw)}},
+                frc::Pose2d{(units::meter_t)3.0, (units::meter_t)3.0, m_gyro.GetAngle(frc::ADIS16470_IMU::kYaw)}},
 
     m_poseEstimator{m_driveKinematics,
-                -m_gyro.GetAngle(frc::ADIS16470_IMU::kYaw),
+                m_gyro.GetAngle(frc::ADIS16470_IMU::kYaw),
                 {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
                 m_backLeft.GetPosition(), m_backRight.GetPosition()},
-                frc::Pose2d{(units::meter_t)3.0, (units::meter_t)3.0, -m_gyro.GetAngle(frc::ADIS16470_IMU::kYaw)},
+                frc::Pose2d{(units::meter_t)3.0, (units::meter_t)3.0, m_gyro.GetAngle(frc::ADIS16470_IMU::kYaw)},
                 {0.05, 0.05, 0.001}, // Standard Deviation of the encoder position value
                 {0.2, 0.2, 0.05}} // Standard Deviation of vision pose esitmation
 
-                
+              
 {
-
+  
 
   // Initialize shuffleboard communication
   auto nt_inst = nt::NetworkTableInstance::GetDefault();
@@ -106,9 +106,9 @@ DriveSubsystem::DriveSubsystem()
   nte_debugTimeForAddVistionData = nt_table->GetEntry("Debug Values/Add Vision Data");  
   nte_numberOfTagsAdded = nt_table->GetEntry("Debug Values/Number Of Tags Processed");
 
-  //nte_kp.SetDouble(2.5);
-  //nte_ki.SetDouble(0.002);
-  //nte_kd.SetDouble(0.05);
+  nte_kp.SetDouble(2.5);
+  nte_ki.SetDouble(0.002);
+  nte_kd.SetDouble(0.05);
 
   
   // Send Field to shuffleboard
@@ -129,18 +129,18 @@ bool DriveSubsystem::InRedAlliance() {
 
 void DriveSubsystem::Periodic() {
   // Implementation of subsystem periodic method goes here.
-  m_odometry.Update(-m_gyro.GetAngle(frc::ADIS16470_IMU::kYaw),
+  m_odometry.Update(m_gyro.GetAngle(frc::ADIS16470_IMU::kYaw),
                     {m_frontLeft.GetPosition(), m_frontRight.GetPosition(), 
                     m_backLeft.GetPosition(), m_backRight.GetPosition()});
 
-  m_poseEstimator.Update(-m_gyro.GetAngle(frc::ADIS16470_IMU::kYaw), 
+  m_poseEstimator.Update(m_gyro.GetAngle(frc::ADIS16470_IMU::kYaw), 
                       {m_frontLeft.GetPosition(), m_frontRight.GetPosition(), m_backLeft.GetPosition(), m_backRight.GetPosition()});
 
   // set odometry relative to the apriltag
   if (GetLinearRobotSpeed() < 1.0 && GetTurnRate() < 20.0)
     EstimatePoseWithApriltag();
   
-  //UpdateNTE();
+  UpdateNTE();
 
   m_field.SetRobotPose(m_poseEstimator.GetEstimatedPosition());
 
@@ -257,7 +257,7 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
           ? frc::ChassisSpeeds::FromFieldRelativeSpeeds(
                 xSpeedDelivered, ySpeedDelivered, rotDelivered,
                 frc::Rotation2d(units::radian_t{
-                    -m_gyro.GetAngle(frc::ADIS16470_IMU::IMUAxis::kZ)}))
+                    m_gyro.GetAngle(frc::ADIS16470_IMU::IMUAxis::kZ)}))
           : frc::ChassisSpeeds{xSpeedDelivered, ySpeedDelivered, rotDelivered});
 
   m_driveKinematics.DesaturateWheelSpeeds(&states, DriveConstants::kMaxSpeed);
@@ -270,14 +270,14 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
   m_backRight.SetDesiredState(br);
 
   // Network table entries
-  //nte_fl_set_angle.SetDouble((double)fl.angle.Radians());
-  //nte_fr_set_angle.SetDouble((double)fr.angle.Radians());
-  //nte_bl_set_angle.SetDouble((double)bl.angle.Radians());
-  //nte_br_set_angle.SetDouble((double)br.angle.Radians());
-  //nte_fl_set_speed.SetDouble((double)fl.speed);
-  //nte_fr_set_speed.SetDouble((double)fr.speed);
-  //nte_bl_set_speed.SetDouble((double)bl.speed);
-  //nte_br_set_speed.SetDouble((double)br.speed);
+  nte_fl_set_angle.SetDouble((double)fl.angle.Radians());
+  nte_fr_set_angle.SetDouble((double)fr.angle.Radians());
+  nte_bl_set_angle.SetDouble((double)bl.angle.Radians());
+  nte_br_set_angle.SetDouble((double)br.angle.Radians());
+  nte_fl_set_speed.SetDouble((double)fl.speed);
+  nte_fr_set_speed.SetDouble((double)fr.speed);
+  nte_bl_set_speed.SetDouble((double)bl.speed);
+  nte_br_set_speed.SetDouble((double)br.speed);
   
 }
 
@@ -370,7 +370,7 @@ void DriveSubsystem::DriveFacingGoal(units::meters_per_second_t xSpeed,
           ? frc::ChassisSpeeds::FromFieldRelativeSpeeds(
                 xSpeedDelivered, ySpeedDelivered, rotDelivered,
                 frc::Rotation2d(units::radian_t{
-                    -m_gyro.GetAngle(frc::ADIS16470_IMU::IMUAxis::kZ)}))
+                    m_gyro.GetAngle(frc::ADIS16470_IMU::IMUAxis::kZ)}))
           : frc::ChassisSpeeds{xSpeedDelivered, ySpeedDelivered, rotDelivered});
 
   m_driveKinematics.DesaturateWheelSpeeds(&states, DriveConstants::kMaxSpeed);
@@ -421,7 +421,7 @@ void DriveSubsystem::SetModuleStates(
 }
 
 units::degree_t DriveSubsystem::GetHeading() const {
-  return -m_gyro.GetAngle(frc::ADIS16470_IMU::kYaw);
+  return m_gyro.GetAngle(frc::ADIS16470_IMU::kYaw);
 }
 
 double DriveSubsystem::GetLinearRobotSpeed() {
@@ -442,7 +442,7 @@ void DriveSubsystem::SetFieldRelative() {
 }
 
 double DriveSubsystem::GetTurnRate() {
-  return (double)-m_gyro.GetRate(frc::ADIS16470_IMU::kYaw);
+  return (double)m_gyro.GetRate(frc::ADIS16470_IMU::kYaw);
 }
 
 frc::Pose2d DriveSubsystem::GetPose() {
@@ -485,13 +485,15 @@ void DriveSubsystem::ResetOdometry(frc::Pose2d pose) {
       pose);
 }
 
+
+
 void DriveSubsystem::EstimatePoseWithApriltag() {
 #ifdef DEBUGPOSEESTIMATION
   double startEstiamtionTime = (double)m_timer.GetFPGATimestamp();
   int numberOfValidTags = 0;
 #endif
   // Iterate through each tag, adding it to the pose estimator if it is tracked
-  for (int tag = 1; tag <= 16; tag++ ) { // Check each tag for each camera
+  for (int tag = 1; tag <= 22; tag++ ) { // Check each tag for each camera
   //int tag = 7;
     // Front Camera
     if (m_frontCameraSensor.TagIsTracked(tag) && m_frontCameraSensor.GetTimestamp(tag) > (units::second_t)0.0){

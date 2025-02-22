@@ -26,7 +26,7 @@
 
 
 // Turn this off when there is no new constants need to be burned onto motorcontrollers
-//#define BURNMODULESPARKMAX
+#define BURNMODULESPARKMAX
 //#define USEXBOXCONTROLLER
 //#define PRINTDEBUG
 //#define DEBUGPOSEESTIMATION
@@ -131,14 +131,14 @@ constexpr units::radian_t kTurningEncoderPositionPIDMinInput = 0_rad;
 constexpr units::radian_t kTurningEncoderPositionPIDMaxInput =
     units::radian_t{kTurningEncoderPositionFactor};
 
-constexpr double kDrivingP = 0.04;
+constexpr double kDrivingP = 1000000.0;
 constexpr double kDrivingI = 0;
 constexpr double kDrivingD = 0;
 constexpr double kDrivingFF = (1 / kDriveWheelFreeSpeedRps);
 constexpr double kDrivingMinOutput = -1;
 constexpr double kDrivingMaxOutput = 1;
 
-constexpr double kTurningP = 1;
+constexpr double kTurningP = 0;
 constexpr double kTurningI = 0;
 constexpr double kTurningD = 0;
 constexpr double kTurningFF = 0;
