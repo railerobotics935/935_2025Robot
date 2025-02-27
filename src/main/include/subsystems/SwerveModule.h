@@ -32,6 +32,7 @@ class SwerveModule {
 
   frc::SwerveModulePosition GetPosition();
 
+
   void SetDesiredState(const frc::SwerveModuleState& state);
 
   /**

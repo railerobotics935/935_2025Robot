@@ -247,9 +247,9 @@ public:
    */
 
 frc::SwerveDriveKinematics<4> m_driveKinematics{
-    frc::Translation2d{units::meter_t(RobotConstants::kWheelBase / 2),units::meter_t(RobotConstants::kWheelWidth / 2)},
-    frc::Translation2d{units::meter_t(RobotConstants::kWheelBase / 2), units::meter_t(-RobotConstants::kWheelWidth / 2)},
+    frc::Translation2d{units::meter_t(RobotConstants::kWheelBase / 2),units::meter_t(-RobotConstants::kWheelWidth / 2)},
     frc::Translation2d{units::meter_t(-RobotConstants::kWheelBase / 2), units::meter_t(-RobotConstants::kWheelWidth / 2)},
+    frc::Translation2d{units::meter_t(RobotConstants::kWheelBase / 2), units::meter_t(RobotConstants::kWheelWidth / 2)},
     frc::Translation2d{units::meter_t(-RobotConstants::kWheelBase / 2), units::meter_t(RobotConstants::kWheelWidth / 2)}};
 
 private:
@@ -301,6 +301,11 @@ private:
   SwerveModule m_frontRight;
   SwerveModule m_backLeft;
   SwerveModule m_backRight;
+
+  double m_turning_Kp = ModuleConstants::kTurningP;
+  double m_turning_Ki = ModuleConstants::kTurningI;
+  double m_turning_Kd = ModuleConstants::kTurningD;
+
 
   // The gyro sensor
   frc::ADIS16470_IMU m_gyro{frc::ADIS16470_IMU::IMUAxis::kZ, frc::ADIS16470_IMU::IMUAxis::kY, frc::ADIS16470_IMU::IMUAxis::kX};

@@ -32,6 +32,11 @@ SwerveModule::SwerveModule(const int drivingCANId, const int turningCANId,
   m_desiredState.angle =
       frc::Rotation2d(units::radian_t{m_turningAbsoluteEncoder.GetPosition()});
   m_drivingEncoder.SetPosition(0);
+
+  m_turningSparkMax.SetInverted(false);
+  m_drivingSparkMax.SetInverted(true);
+  // m_turningPIDController.EnableContinuousInput(units::radian_t(0), units::radian_t(std::numbers::pi * 2));//(-units::radian_t(std::numbers::pi), units::radian_t(std::numbers::pi));
+
 }
 
 void SwerveModule::ConfigureSparkMax() {
@@ -40,7 +45,7 @@ void SwerveModule::ConfigureSparkMax() {
   rev::spark::SparkMaxConfig driveSparkMaxConfig{};
 
   driveSparkMaxConfig
-  .VoltageCompensation(RobotConstants::kVoltageCompentationValue)
+  .VoltageCompensation(RobotConstants::kVoltageCompensationValue)
   .SetIdleMode(kDrivingMotorIdleMode)
   .SmartCurrentLimit(kDrivingMotorCurrentLimit.value());
 
@@ -58,7 +63,7 @@ void SwerveModule::ConfigureSparkMax() {
   rev::spark::SparkMaxConfig turningSparkMaxConfig{};
 
   turningSparkMaxConfig
-  .VoltageCompensation(RobotConstants::kVoltageCompentationValue)
+  .VoltageCompensation(RobotConstants::kVoltageCompensationValue)
   .SetIdleMode(kTurningMotorIdleMode)
   .SmartCurrentLimit(kTurningMotorCurrentLimit.value());
 
@@ -100,14 +105,11 @@ void SwerveModule::SetDesiredState(const frc::SwerveModuleState& desiredState){
   // Apply chassis angular offset to the desired state.
   frc::SwerveModuleState correctedDesiredState{};
   correctedDesiredState.speed = desiredState.speed;
-  correctedDesiredState.angle =
-      desiredState.angle +
-      frc::Rotation2d(units::radian_t{m_turningEncoderOffset});
+  correctedDesiredState.angle = desiredState.angle + frc::Rotation2d(units::radian_t{m_turningEncoderOffset});
 
   // Optimize the reference state to avoid spinning further than 90 degrees.
-  frc::SwerveModuleState optimizedDesiredState{/*frc::SwerveModuleState::Optimize(
-      correctedDesiredState, frc::Rotation2d(units::radian_t{
-                                 m_turningAbsoluteEncoder.GetPosition()}))*/};
+  frc::SwerveModuleState optimizedDesiredState{frc::SwerveModuleState::Optimize(
+      desiredState, frc::Rotation2d(units::radian_t{m_turningAbsoluteEncoder.GetPosition()}))};
 
   // Command driving and turning SPARKS MAX towards their respective setpoints.
   m_drivingPIDController.SetReference((double)optimizedDesiredState.speed,

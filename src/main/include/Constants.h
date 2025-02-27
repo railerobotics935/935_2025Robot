@@ -44,7 +44,7 @@
 
 namespace RobotConstants {
 
-constexpr double kVoltageCompentationValue = 11.0;
+constexpr double kVoltageCompensationValue = 11.0;
 
 const units::meter_t kWheelBase =
     0.6223_m;  // Distance between centers of front and back wheels on robot
@@ -87,10 +87,14 @@ constexpr int kBackRightTurningEncoderPort = kBackRightTurningMotorPort;
 
 // Offsets in radians for the encoders. the first number to to make zero forward, after that we
 // subtract an additional pi to make the full range -pi to pi instead of 0 to 2pi
-constexpr double kFrontLeftDriveEncoderOffset = (1.9249 - (std::numbers::pi / 2) + (std::numbers::pi / 3)) + 0.033;
-constexpr double kFrontRightDriveEncoderOffset = (3.2676) - (std::numbers::pi / 3) - 0.062; 
-constexpr double kBackLeftDriveEncoderOffset =  (2.0477) - (2.0 * std::numbers::pi / 3) + std::numbers::pi + 0.050; //(0.6988 + (std::numbers::pi / 2)); 
-constexpr double kBackRightDriveEncoderOffset = (3.8439 + (std::numbers::pi / 2)) - 0.019; //(2.0472 + (std::numbers::pi)); 
+//constexpr double kFrontLeftDriveEncoderOffset = (1.9249 - (std::numbers::pi / 2) + (std::numbers::pi / 3)) + 0.033;
+//constexpr double kFrontRightDriveEncoderOffset = (3.2676) - (std::numbers::pi / 3) - 0.062; 
+//constexpr double kBackLeftDriveEncoderOffset =  (2.0477) - (2.0 * std::numbers::pi / 3) + std::numbers::pi + 0.050; //(0.6988 + (std::numbers::pi / 2)); 
+//constexpr double kBackRightDriveEncoderOffset = (3.8439 + (std::numbers::pi / 2)) - 0.019; //(2.0472 + (std::numbers::pi)); 
+constexpr double kFrontLeftTurnEncoderOffset = 0; //-(std::numbers::pi / 2); //2.789 - (std::numbers::pi / 2) - std::numbers::pi;
+constexpr double kFrontRightTurnEncoderOffset = (std::numbers::pi); //4.996 - std::numbers::pi; 
+constexpr double kBackLeftTurnEncoderOffset = 0; //5.756; 
+constexpr double kBackRightTurnEncoderOffset = -((std::numbers::pi * 3) / 2); //4.407 + (std::numbers::pi / 2) - std::numbers::pi;
 
 constexpr auto kDriveBaseRadius = 0.46_m;
 
@@ -131,16 +135,16 @@ constexpr units::radian_t kTurningEncoderPositionPIDMinInput = 0_rad;
 constexpr units::radian_t kTurningEncoderPositionPIDMaxInput =
     units::radian_t{kTurningEncoderPositionFactor};
 
-constexpr double kDrivingP = 1000000.0;
-constexpr double kDrivingI = 0;
-constexpr double kDrivingD = 0;
+constexpr double kDrivingP = 0.04;
+constexpr double kDrivingI = 0.0;
+constexpr double kDrivingD = 0.0;
 constexpr double kDrivingFF = (1 / kDriveWheelFreeSpeedRps);
 constexpr double kDrivingMinOutput = -1;
 constexpr double kDrivingMaxOutput = 1;
 
-constexpr double kTurningP = 0;
-constexpr double kTurningI = 0;
-constexpr double kTurningD = 0;
+constexpr double kTurningP = 1.0;
+constexpr double kTurningI = 0.0;
+constexpr double kTurningD = 0.0; //was originally 0.15
 constexpr double kTurningFF = 0;
 constexpr double kTurningMinOutput = -1;
 constexpr double kTurningMaxOutput = 1;

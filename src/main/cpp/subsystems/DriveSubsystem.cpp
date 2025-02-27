@@ -32,22 +32,22 @@ using namespace pathplanner;
 DriveSubsystem::DriveSubsystem()
   : m_frontLeft{kFrontLeftDriveMotorPort,
                 kFrontLeftTurningMotorPort,
-                kFrontLeftDriveEncoderOffset},
+                kFrontLeftTurnEncoderOffset},
 
     m_frontRight{
         kFrontRightDriveMotorPort,       
         kFrontRightTurningMotorPort,
-        kFrontRightDriveEncoderOffset},
+        kFrontRightTurnEncoderOffset},
     
     m_backLeft{
         kBackLeftDriveMotorPort,       
         kBackLeftTurningMotorPort,
-        kBackLeftDriveEncoderOffset},
+        kBackLeftTurnEncoderOffset},
 
     m_backRight{
         kBackRightDriveMotorPort,       
         kBackRightTurningMotorPort,  
-        kBackRightDriveEncoderOffset},
+        kBackRightTurnEncoderOffset},
 
     m_odometry{m_driveKinematics,
                 m_gyro.GetAngle(frc::ADIS16470_IMU::kYaw),
@@ -98,17 +98,17 @@ DriveSubsystem::DriveSubsystem()
   nte_robot_x = nt_table->GetEntry("Swerve Drive/Robot X");
   nte_robot_y = nt_table->GetEntry("Swerve Drive/Robot Y");
 
-  nte_kp = nt_table->GetEntry("SwerveDrive/PID/KP");
-  nte_ki = nt_table->GetEntry("SwerveDrive/PID/KI");
-  nte_kd = nt_table->GetEntry("SwerveDrive/PID/KD"); 
+  // nte_kp = nt_table->GetEntry("SwerveDrive/PID/KtP");
+  // nte_ki = nt_table->GetEntry("SwerveDrive/PID/KtI");
+  // nte_kd = nt_table->GetEntry("SwerveDrive/PID/KtD"); 
 
   nte_debugTimeForPoseEstimation = nt_table->GetEntry("Debug Values/Pose Estimation");
   nte_debugTimeForAddVistionData = nt_table->GetEntry("Debug Values/Add Vision Data");  
   nte_numberOfTagsAdded = nt_table->GetEntry("Debug Values/Number Of Tags Processed");
 
-  nte_kp.SetDouble(2.5);
-  nte_ki.SetDouble(0.002);
-  nte_kd.SetDouble(0.05);
+  // nte_kp.SetDouble(2.5);
+  // nte_ki.SetDouble(0.002);
+  // nte_kd.SetDouble(0.05);
 
   
   // Send Field to shuffleboard
