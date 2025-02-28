@@ -247,10 +247,10 @@ public:
    */
 
 frc::SwerveDriveKinematics<4> m_driveKinematics{
-    frc::Translation2d{units::meter_t(RobotConstants::kWheelBase / 2),units::meter_t(-RobotConstants::kWheelWidth / 2)},
-    frc::Translation2d{units::meter_t(-RobotConstants::kWheelBase / 2), units::meter_t(-RobotConstants::kWheelWidth / 2)},
-    frc::Translation2d{units::meter_t(RobotConstants::kWheelBase / 2), units::meter_t(RobotConstants::kWheelWidth / 2)},
-    frc::Translation2d{units::meter_t(-RobotConstants::kWheelBase / 2), units::meter_t(RobotConstants::kWheelWidth / 2)}};
+    frc::Translation2d{units::meter_t(RobotConstants::kWheelBase / 2),units::meter_t(RobotConstants::kWheelWidth / 2)},     //Front Left
+    frc::Translation2d{units::meter_t(RobotConstants::kWheelBase / 2), units::meter_t(-RobotConstants::kWheelWidth / 2)},   //Front Right
+    frc::Translation2d{units::meter_t(-RobotConstants::kWheelBase / 2), units::meter_t(RobotConstants::kWheelWidth / 2)},   //Back Left
+    frc::Translation2d{units::meter_t(-RobotConstants::kWheelBase / 2), units::meter_t(-RobotConstants::kWheelWidth / 2)}}; //Back Right
 
 private:
   // Declaring all of the network table entries

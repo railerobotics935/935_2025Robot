@@ -64,15 +64,15 @@ constexpr double kMagnitudeSlewRate = 7.0;   // percent per second (1 = 100%)
 constexpr double kRotationalSlewRate = 8.0;  // percent per second (1 = 100%)
 
 // CAN Sparkmax id numbers
-constexpr int kFrontLeftDriveMotorPort = 18;
-constexpr int kFrontRightDriveMotorPort = 10;
-constexpr int kBackLeftDriveMotorPort = 20;
-constexpr int kBackRightDriveMotorPort = 28;
+constexpr int kFrontLeftDriveMotorPort = 28;
+constexpr int kFrontRightDriveMotorPort = 20;
+constexpr int kBackLeftDriveMotorPort = 10;
+constexpr int kBackRightDriveMotorPort = 18;
 
-constexpr int kFrontLeftTurningMotorPort = 19;
-constexpr int kFrontRightTurningMotorPort = 11;
-constexpr int kBackLeftTurningMotorPort = 21;
-constexpr int kBackRightTurningMotorPort = 29;
+constexpr int kFrontLeftTurningMotorPort = 29;
+constexpr int kFrontRightTurningMotorPort = 21;
+constexpr int kBackLeftTurningMotorPort = 11;
+constexpr int kBackRightTurningMotorPort = 19;
 
 // PID Controller for the auto rotation of the robot
 constexpr double kRotationP = 2.5;
@@ -91,10 +91,10 @@ constexpr int kBackRightTurningEncoderPort = kBackRightTurningMotorPort;
 //constexpr double kFrontRightDriveEncoderOffset = (3.2676) - (std::numbers::pi / 3) - 0.062; 
 //constexpr double kBackLeftDriveEncoderOffset =  (2.0477) - (2.0 * std::numbers::pi / 3) + std::numbers::pi + 0.050; //(0.6988 + (std::numbers::pi / 2)); 
 //constexpr double kBackRightDriveEncoderOffset = (3.8439 + (std::numbers::pi / 2)) - 0.019; //(2.0472 + (std::numbers::pi)); 
-constexpr double kFrontLeftTurnEncoderOffset = 0; //-(std::numbers::pi / 2); //2.789 - (std::numbers::pi / 2) - std::numbers::pi;
+constexpr double kFrontLeftTurnEncoderOffset = (std::numbers::pi / 2); //-(std::numbers::pi / 2); //2.789 - (std::numbers::pi / 2) - std::numbers::pi;
 constexpr double kFrontRightTurnEncoderOffset = (std::numbers::pi); //4.996 - std::numbers::pi; 
 constexpr double kBackLeftTurnEncoderOffset = 0; //5.756; 
-constexpr double kBackRightTurnEncoderOffset = -((std::numbers::pi * 3) / 2); //4.407 + (std::numbers::pi / 2) - std::numbers::pi;
+constexpr double kBackRightTurnEncoderOffset = -((std::numbers::pi) / 2); //4.407 + (std::numbers::pi / 2) - std::numbers::pi;
 
 constexpr auto kDriveBaseRadius = 0.46_m;
 
@@ -135,14 +135,14 @@ constexpr units::radian_t kTurningEncoderPositionPIDMinInput = 0_rad;
 constexpr units::radian_t kTurningEncoderPositionPIDMaxInput =
     units::radian_t{kTurningEncoderPositionFactor};
 
-constexpr double kDrivingP = 0.04;
+constexpr double kDrivingP = 0.0;
 constexpr double kDrivingI = 0.0;
 constexpr double kDrivingD = 0.0;
 constexpr double kDrivingFF = (1 / kDriveWheelFreeSpeedRps);
 constexpr double kDrivingMinOutput = -1;
 constexpr double kDrivingMaxOutput = 1;
 
-constexpr double kTurningP = 1.0;
+constexpr double kTurningP = 1.5;
 constexpr double kTurningI = 0.0;
 constexpr double kTurningD = 0.0; //was originally 0.15
 constexpr double kTurningFF = 0;

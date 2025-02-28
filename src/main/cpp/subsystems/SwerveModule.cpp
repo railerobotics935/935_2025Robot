@@ -29,14 +29,11 @@ SwerveModule::SwerveModule(const int drivingCANId, const int turningCANId,
   #endif
 
   m_turningEncoderOffset = turningEncoderOffset;
-  m_desiredState.angle =
-      frc::Rotation2d(units::radian_t{m_turningAbsoluteEncoder.GetPosition()});
+  m_desiredState.angle = frc::Rotation2d(units::radian_t{m_turningAbsoluteEncoder.GetPosition()});
   m_drivingEncoder.SetPosition(0);
 
   m_turningSparkMax.SetInverted(false);
   m_drivingSparkMax.SetInverted(true);
-  // m_turningPIDController.EnableContinuousInput(units::radian_t(0), units::radian_t(std::numbers::pi * 2));//(-units::radian_t(std::numbers::pi), units::radian_t(std::numbers::pi));
-
 }
 
 void SwerveModule::ConfigureSparkMax() {
@@ -58,7 +55,7 @@ void SwerveModule::ConfigureSparkMax() {
   .OutputRange(kDrivingMinOutput, kDrivingMaxOutput);
 
   m_drivingSparkMax.Configure(driveSparkMaxConfig, rev::spark::SparkMax::ResetMode::kResetSafeParameters, rev::spark::SparkMax::PersistMode::kPersistParameters);
-  
+
 
   rev::spark::SparkMaxConfig turningSparkMaxConfig{};
 
@@ -82,8 +79,6 @@ void SwerveModule::ConfigureSparkMax() {
 
   m_turningSparkMax.Configure(turningSparkMaxConfig, rev::spark::SparkMax::ResetMode::kResetSafeParameters, rev::spark::SparkMax::PersistMode::kPersistParameters);
   
-
-        
   // Set the PID Controller to use the duty cycle encoder on the swerve
   // module instead of the built in NEO550 encoder.
   
@@ -109,15 +104,13 @@ void SwerveModule::SetDesiredState(const frc::SwerveModuleState& desiredState){
 
   // Optimize the reference state to avoid spinning further than 90 degrees.
   frc::SwerveModuleState optimizedDesiredState{frc::SwerveModuleState::Optimize(
-      desiredState, frc::Rotation2d(units::radian_t{m_turningAbsoluteEncoder.GetPosition()}))};
+      correctedDesiredState, frc::Rotation2d(units::radian_t{m_turningAbsoluteEncoder.GetPosition()}))};
 
   // Command driving and turning SPARKS MAX towards their respective setpoints.
   m_drivingPIDController.SetReference((double)optimizedDesiredState.speed,
                                       rev::spark::SparkMax::ControlType::kVelocity);
-  m_turningPIDController.SetReference(
-      optimizedDesiredState.angle.Radians().value(),
-      rev::spark::SparkMax::ControlType::kPosition);
+  m_turningPIDController.SetReference(optimizedDesiredState.angle.Radians().value(),
+                                      rev::spark::SparkMax::ControlType::kPosition);
 
   m_desiredState = desiredState;
 }
-

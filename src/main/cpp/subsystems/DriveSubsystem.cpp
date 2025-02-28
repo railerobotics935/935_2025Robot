@@ -34,20 +34,17 @@ DriveSubsystem::DriveSubsystem()
                 kFrontLeftTurningMotorPort,
                 kFrontLeftTurnEncoderOffset},
 
-    m_frontRight{
-        kFrontRightDriveMotorPort,       
-        kFrontRightTurningMotorPort,
-        kFrontRightTurnEncoderOffset},
+    m_frontRight{kFrontRightDriveMotorPort,       
+                 kFrontRightTurningMotorPort,
+                 kFrontRightTurnEncoderOffset},
     
-    m_backLeft{
-        kBackLeftDriveMotorPort,       
-        kBackLeftTurningMotorPort,
-        kBackLeftTurnEncoderOffset},
+    m_backLeft{kBackLeftDriveMotorPort,       
+               kBackLeftTurningMotorPort,
+               kBackLeftTurnEncoderOffset},
 
-    m_backRight{
-        kBackRightDriveMotorPort,       
-        kBackRightTurningMotorPort,  
-        kBackRightTurnEncoderOffset},
+    m_backRight{kBackRightDriveMotorPort,       
+                kBackRightTurningMotorPort,  
+                kBackRightTurnEncoderOffset},
 
     m_odometry{m_driveKinematics,
                 m_gyro.GetAngle(frc::ADIS16470_IMU::kYaw),
@@ -62,11 +59,7 @@ DriveSubsystem::DriveSubsystem()
                 frc::Pose2d{(units::meter_t)3.0, (units::meter_t)3.0, m_gyro.GetAngle(frc::ADIS16470_IMU::kYaw)},
                 {0.05, 0.05, 0.001}, // Standard Deviation of the encoder position value
                 {0.2, 0.2, 0.05}} // Standard Deviation of vision pose esitmation
-
-              
 {
-  
-
   // Initialize shuffleboard communication
   auto nt_inst = nt::NetworkTableInstance::GetDefault();
   auto nt_table = nt_inst.GetTable("datatable");
@@ -127,14 +120,16 @@ bool DriveSubsystem::InRedAlliance() {
     return true;
 }
 
-void DriveSubsystem::Periodic() {
+void DriveSubsystem::Periodic()
+{
   // Implementation of subsystem periodic method goes here.
   m_odometry.Update(m_gyro.GetAngle(frc::ADIS16470_IMU::kYaw),
                     {m_frontLeft.GetPosition(), m_frontRight.GetPosition(), 
                     m_backLeft.GetPosition(), m_backRight.GetPosition()});
 
   m_poseEstimator.Update(m_gyro.GetAngle(frc::ADIS16470_IMU::kYaw), 
-                      {m_frontLeft.GetPosition(), m_frontRight.GetPosition(), m_backLeft.GetPosition(), m_backRight.GetPosition()});
+                    {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
+                    m_backLeft.GetPosition(), m_backRight.GetPosition()});
 
   // set odometry relative to the apriltag
   if (GetLinearRobotSpeed() < 1.0 && GetTurnRate() < 20.0)
@@ -149,7 +144,8 @@ void DriveSubsystem::Periodic() {
   //m_robotAngleController.SetD(nte_kd.GetDouble(0.05));
 }
 
-void DriveSubsystem::UpdateNTE() {
+void DriveSubsystem::UpdateNTE()
+{
   nte_fl_real_angle.SetDouble((double)m_frontLeft.GetState().angle.Radians());
   nte_fr_real_angle.SetDouble((double)m_frontRight.GetState().angle.Radians());
   nte_bl_real_angle.SetDouble((double)m_backLeft.GetState().angle.Radians());
@@ -170,27 +166,23 @@ void DriveSubsystem::UpdateNTE() {
 
   // Set robot position to shuffleboard field
   m_field.SetRobotPose(m_poseEstimator.GetEstimatedPosition());
-
-
-
 }
 
 void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
                            units::meters_per_second_t ySpeed,
                            units::radians_per_second_t rot,
-                           bool rateLimit) {
-                             
+                           bool rateLimit)
+{
   double xSpeedCommanded;
   double ySpeedCommanded;
 
-  if (rateLimit) {
+  if (rateLimit)
+  {
     // Convert XY to polar for rate limiting
     double inputTranslationDir = atan2(ySpeed.value(), xSpeed.value());
-    double inputTranslationMag =
-        sqrt(pow(xSpeed.value(), 2) + pow(ySpeed.value(), 2));
+    double inputTranslationMag = sqrt(pow(xSpeed.value(), 2) + pow(ySpeed.value(), 2));
 
-    // Calculate the direction slew rate based on an estimate of the lateral
-    // acceleration
+    // Calculate the direction slew rate based on an estimate of the lateral acceleration
     double directionSlewRate;
     if (m_currentTranslationMag != 0.0) {
       directionSlewRate =
@@ -216,8 +208,7 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
         m_currentTranslationMag = m_magLimiter.Calculate(0.0);
       } 
       else {
-        m_currentTranslationDir =
-            SwerveUtils::WrapAngle(m_currentTranslationDir + std::numbers::pi);
+        m_currentTranslationDir = SwerveUtils::WrapAngle(m_currentTranslationDir + std::numbers::pi);
         m_currentTranslationMag = m_magLimiter.Calculate(inputTranslationMag);
       }
     } 
@@ -232,32 +223,23 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
     xSpeedCommanded = m_currentTranslationMag * cos(m_currentTranslationDir);
     ySpeedCommanded = m_currentTranslationMag * sin(m_currentTranslationDir);
     m_currentRotation = m_rotLimiter.Calculate(rot.value());
-
   } 
   else {
     xSpeedCommanded = xSpeed.value();
     ySpeedCommanded = ySpeed.value();
     m_currentRotation = rot.value();
   }
-  if (!m_fieldRelative) {
-    xSpeedCommanded = -xSpeedCommanded; 
-    ySpeedCommanded = -ySpeedCommanded; 
-  }
 
   // Convert the commanded speeds into the correct units for the drivetrain
-  units::meters_per_second_t xSpeedDelivered =
-      xSpeedCommanded * DriveConstants::kMaxSpeed;
-  units::meters_per_second_t ySpeedDelivered =
-      ySpeedCommanded * DriveConstants::kMaxSpeed;
-  units::radians_per_second_t rotDelivered =
-      m_currentRotation * DriveConstants::kMaxAngularSpeed;
+  units::meters_per_second_t xSpeedDelivered = xSpeedCommanded * DriveConstants::kMaxSpeed;
+  units::meters_per_second_t ySpeedDelivered = ySpeedCommanded * DriveConstants::kMaxSpeed;
+  units::radians_per_second_t rotDelivered = m_currentRotation * DriveConstants::kMaxAngularSpeed;
 
   auto states = m_driveKinematics.ToSwerveModuleStates(
       m_fieldRelative
           ? frc::ChassisSpeeds::FromFieldRelativeSpeeds(
                 xSpeedDelivered, ySpeedDelivered, rotDelivered,
-                frc::Rotation2d(units::radian_t{
-                    m_gyro.GetAngle(frc::ADIS16470_IMU::IMUAxis::kZ)}))
+                frc::Rotation2d(units::radian_t{m_gyro.GetAngle(frc::ADIS16470_IMU::IMUAxis::kZ)}))
           : frc::ChassisSpeeds{xSpeedDelivered, ySpeedDelivered, rotDelivered});
 
   m_driveKinematics.DesaturateWheelSpeeds(&states, DriveConstants::kMaxSpeed);
@@ -278,7 +260,6 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
   nte_fr_set_speed.SetDouble((double)fr.speed);
   nte_bl_set_speed.SetDouble((double)bl.speed);
   nte_br_set_speed.SetDouble((double)br.speed);
-  
 }
 
 void DriveSubsystem::DriveFacingGoal(units::meters_per_second_t xSpeed,
@@ -345,10 +326,6 @@ void DriveSubsystem::DriveFacingGoal(units::meters_per_second_t xSpeed,
     xSpeedCommanded = xSpeed.value();
     ySpeedCommanded = ySpeed.value();
     m_currentRotation = m_robotAngleController.Calculate((double)GetPose().Rotation().Radians(), (double)rotation.Radians());
-  }
-  if (!m_fieldRelative) {
-    xSpeedCommanded = -xSpeedCommanded; 
-    ySpeedCommanded = -ySpeedCommanded; 
   }
 
   // Put limits so we don't go over the rotation speed limit
