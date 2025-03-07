@@ -16,14 +16,14 @@
 
 #include "Constants.h"
 
-class ElevatorSubsystem : public frc2::SubsystemBase {
+class FourbarSubsystem : public frc2::SubsystemBase {
  public:
   /**
    * Creates a Elevator subsystem.
    * Currently for both indiviual elevators (two phystical subsystems)
    * but coding it as one
   */
-  ElevatorSubsystem();
+  FourbarAtBase();
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -59,16 +59,16 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
 
  private:
 
-  nt::NetworkTableEntry m_ElevatorLimitSwitch;
-  nt::NetworkTableEntry m_ElevatorDistance;
+  nt::NetworkTableEntry m_FourbarLimitSwitch;
+  nt::NetworkTableEntry m_FourbarDistance;
 
   // Motor Controllers
-  rev::spark::SparkMax m_elevatorSparkMax{ElevatorConstants::kID, ElevatorConstants::kMotorType};
+  rev::spark::SparkMax m_fourbarSparkMax{FourbarConstants::kID, FourbarConstants::kMotorType};
   
   // Encoders motor controllers
-  frc::Encoder m_elevatorEncoder{ElevatorConstants::kElevatorSensA, ElevatorConstants::kElevatorSensB};  
+  frc::Encoder m_fourbarEncoder{FourbarConstants::kFourbarSensA, FourbarConstants::kFourbarSensB};  
 
   // Limit switch is a digital input in the DIO port (digital input output)
-  frc::DigitalInput m_LimitSwitch{ElevatorConstants::kLimitSwitchPort};
+  frc::DigitalInput m_LimitSwitch{FourbarConstants::kLimitSwitchPort};
 
 };
