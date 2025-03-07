@@ -265,3 +265,21 @@ namespace BackRightCamera {
 
 } // namespace CameraConstants
 
+namespace FourBarConstants {
+    constexpr int kLeftBarMotorID = 0;
+    constexpr int kRightBarMotorID = 0;
+    
+    constexpr rev::spark::SparkMaxConfig::IdleMode kLeftBarMotorIdleMode =  rev::spark::SparkMaxConfig::IdleMode::kBrake;
+    constexpr units::ampere_t kLeftBarMotorCurrentLimit = 40_A;
+    constexpr rev::spark::SparkMaxConfig::IdleMode kRightBarMotorIdleMode =  rev::spark::SparkMaxConfig::IdleMode::kBrake;
+    constexpr units::ampere_t kRightBarMotorCurrentLimit = 40_A;
+    
+    constexpr double kLeftBarEncoderPositionFactor = 0;
+    constexpr double kLeftBarEncoderVelocityFactor = 0;
+    constexpr double kRightBarEncoderPositionFactor = 0;
+    constexpr double kRightBarEncoderVelocityFactor = 0;
+
+    constexpr bool kRightBarEncoderInverted = true;
+
+
+} // namespace FourBarConstants

@@ -83,7 +83,6 @@ void SwerveModule::ConfigureSparkMax() {
   // module instead of the built in NEO550 encoder.
   
 
-
 }
 
 frc::SwerveModuleState SwerveModule::GetState() {
