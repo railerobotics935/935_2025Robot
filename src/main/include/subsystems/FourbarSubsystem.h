@@ -16,14 +16,16 @@
 
 #include "Constants.h"
 
-class FourbarSubsystem : public frc2::SubsystemBase {
+class FourBarSubsystem : public frc2::SubsystemBase {
  public:
+  FourBarSubsystem();
   /**
    * Creates a Elevator subsystem.
    * Currently for both indiviual elevators (two phystical subsystems)
    * but coding it as one
   */
-  FourbarAtBase();
+
+  bool FourBarAtBase();
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -45,7 +47,7 @@ class FourbarSubsystem : public frc2::SubsystemBase {
    * 
    * @param power Power to set the motor power
   */
-  void SetElevatorPower(double power);
+  void SetFourBarPower(double power);
 
   /**
    * Set the elevator motor power invidualy
@@ -59,16 +61,18 @@ class FourbarSubsystem : public frc2::SubsystemBase {
 
  private:
 
-  nt::NetworkTableEntry m_FourbarLimitSwitch;
-  nt::NetworkTableEntry m_FourbarDistance;
+  nt::NetworkTableEntry m_FourBarLimitSwitch;
+  nt::NetworkTableEntry m_FourBarDistance;
 
   // Motor Controllers
-  rev::spark::SparkMax m_fourbarSparkMax{FourbarConstants::kID, FourbarConstants::kMotorType};
+  rev::spark::SparkMax m_leftFourBarSparkMax{FourBarConstants::kLeftBarMotorID, FourBarConstants::kMotorType};
+  rev::spark::SparkMax m_rightFourBarSparkMax{FourBarConstants::kRightBarMotorID, FourBarConstants::kMotorType};
+
   
   // Encoders motor controllers
-  frc::Encoder m_fourbarEncoder{FourbarConstants::kFourbarSensA, FourbarConstants::kFourbarSensB};  
+  frc::Encoder m_fourBarEncoder{FourBarConstants::kFourBarSensA, FourBarConstants::kFourBarSensB};  
 
-  // Limit switch is a digital input in the DIO port (digital input output)
-  frc::DigitalInput m_LimitSwitch{FourbarConstants::kLimitSwitchPort};
+  // // Limit switch is a digital input in the DIO port (digital input output)
+  // frc::DigitalInput m_LimitSwitch{FourBarConstants::kLimitSwitchPort};
 
 };

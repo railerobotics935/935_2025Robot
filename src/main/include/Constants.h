@@ -279,6 +279,11 @@ namespace FourBarConstants {
     constexpr double kRightBarEncoderPositionFactor = 0;
     constexpr double kRightBarEncoderVelocityFactor = 0;
 
+    constexpr rev::spark::SparkLowLevel::MotorType kMotorType = rev::spark::SparkLowLevel::MotorType::kBrushless;
+
+    constexpr int kFourBarSensA = 0;
+    constexpr int kFourBarSensB = 1;
+
     constexpr bool kRightBarEncoderInverted = true;
 
 
