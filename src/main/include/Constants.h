@@ -219,6 +219,12 @@ constexpr int kOperatorRightYIndex = 3; // An input UP creates a NEGATIVE output
 constexpr int kFieldRelativeButtonIndex = 7; // CL
 constexpr int kRobotRelativeButtonIndex = 8; // CR
 constexpr int kResetGyroButtonIndex = 2; // B
+constexpr int kRaiseClimberButtonIndex = 6;
+constexpr int kLowerClimberButtonIndex = 5;
+
+// Operator Controller
+constexpr int kLowerFourBarButtonIndex = 5;
+constexpr int kRaiseFourBarButtonIndex = 6;
 
 } // namespace ControllerConstants
 
@@ -288,3 +294,11 @@ namespace FourBarConstants {
 
 
 } // namespace FourBarConstants
+
+namespace ClimberConstants {
+    constexpr int kClimberMotorID = 0;
+    constexpr rev::spark::SparkLowLevel::MotorType kMotorType = rev::spark::SparkLowLevel::MotorType::kBrushless;
+    constexpr rev::spark::SparkMaxConfig::IdleMode kClimberMotorIdleMode =  rev::spark::SparkMaxConfig::IdleMode::kBrake;
+    constexpr units::ampere_t kClimberMotorCurrentLimit = 40_A;
+
+}

@@ -19,9 +19,15 @@
 #include "Constants.h"
 #include "utils/SwerveUtils.h"
 #include "subsystems/DriveSubsystem.h"
+#include "subsystems/ClimberSubsystem.h"
+#include "subsystems/FourBarSubsystem.h"
 
 #include "commands/drive/DriveWithController.h"
 #include "commands/drive/DriveWithController.h"
+#include "commands/climber/SimpleClimb.h"
+#include "commands/climber/SimpleDescend.h"
+#include "commands/fourbar/LowerFourBar.h"
+#include "commands/fourbar/RaiseFourBar.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -55,6 +61,9 @@ class RobotContainer {
 
   // The robot's subsystems
   DriveSubsystem m_drive;
+  ClimberSubsystem m_climber;
+  FourBarSubsystem m_fourBar;
+
   // Sendable chooser for auto
   frc::SendableChooser<std::string> m_autoChooser;
 

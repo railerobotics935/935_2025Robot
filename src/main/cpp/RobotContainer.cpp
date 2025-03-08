@@ -61,12 +61,19 @@ void RobotContainer::ConfigureButtonBindings() {
   frc2::JoystickButton resetButton(&m_driveController, ControllerConstants::kResetGyroButtonIndex); 
   frc2::JoystickButton robotRelativeButton(&m_driveController, ControllerConstants::kRobotRelativeButtonIndex);
   frc2::JoystickButton fieldRelativeButton(&m_driveController, ControllerConstants::kFieldRelativeButtonIndex); 
+  frc2::JoystickButton raiseClimberButton(&m_driveController, ControllerConstants::kRaiseClimberButtonIndex);
+  frc2::JoystickButton lowerClimberButton(&m_driveController, ControllerConstants::kLowerClimberButtonIndex);
+  frc2::JoystickButton raiseFourBarButton(&m_operatorController, ControllerConstants::kRaiseFourBarButtonIndex);
+  frc2::JoystickButton lowerFourBarButton(&m_operatorController, ControllerConstants::kLowerFourBarButtonIndex);
 
   // Bind commands to button triggers
   resetButton.OnTrue(frc2::cmd::RunOnce([&] {m_drive.ZeroHeading();}, {}));
   robotRelativeButton.OnTrue(frc2::cmd::RunOnce([&] {m_drive.SetRobotRelative();}, {}));
   fieldRelativeButton.OnTrue(frc2::cmd::RunOnce([&] {m_drive.SetFieldRelative();}, {}));
-
+  lowerClimberButton.WhileTrue(SimpleDescend{&m_climber}.ToPtr());
+  raiseClimberButton.WhileTrue(SimpleClimb{&m_climber}.ToPtr());
+  lowerFourBarButton.WhileTrue(LowerFourBar{&m_fourBar}.ToPtr());
+  raiseFourBarButton.WhileTrue(RaiseFourBar{&m_fourBar}.ToPtr());
 
 }
 
