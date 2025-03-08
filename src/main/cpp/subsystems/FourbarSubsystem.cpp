@@ -30,13 +30,16 @@ rev::spark::SparkMaxConfig leftBarSparkMaxConfig{};
   rightBarSparkMaxConfig
   .VoltageCompensation(RobotConstants::kVoltageCompensationValue)
   .SetIdleMode(kRightBarMotorIdleMode)
-  .SmartCurrentLimit(kRightBarMotorCurrentLimit.value());
+  .SmartCurrentLimit(kRightBarMotorCurrentLimit.value())
+  .Follow(kLeftBarMotorID, true); // This boolean decides if the right is inverted from the left, change it if it's wrong
 
   rightBarSparkMaxConfig.encoder
   .PositionConversionFactor(kRightBarEncoderPositionFactor)
   .VelocityConversionFactor(kRightBarEncoderVelocityFactor);
 
-  m_rightFourBarSparkMax.Configure(rightBarSparkMaxConfig, rev::spark::SparkMax::ResetMode::kResetSafeParameters, rev::spark::SparkMax::PersistMode::kPersistParameters);  
+  m_rightFourBarSparkMax.Configure(rightBarSparkMaxConfig, rev::spark::SparkMax::ResetMode::kResetSafeParameters, rev::spark::SparkMax::PersistMode::kPersistParameters);
+
+    
 
 
  // m_elevatorSparkMax.BurnFlash();
@@ -44,19 +47,20 @@ rev::spark::SparkMaxConfig leftBarSparkMaxConfig{};
   // Initialize shuffleboard communication
   auto nt_inst = nt::NetworkTableInstance::GetDefault();
   
-  auto nt_table = nt_inst.GetTable("Elevator");
+  auto nt_table = nt_inst.GetTable("FourBar");
 
-  m_FourBarLimitSwitch = nt_table->GetEntry("Elevator/Limit Switch");
-  m_FourBarDistance = nt_table->GetEntry("Elevator/Distance Extended");
+  //m_FourBarLimitSwitch = nt_table->GetEntry("Elevator/Limit Switch");
+  nte_leftFourBarDistance = nt_table->GetEntry("FourBar/Left Distance Extended");
+  nte_rightFourBarDistance = nt_table->GetEntry("FourBar/Right Distance Extended");
 
     // Set the distance per pulse if needed
-  m_fourBarEncoder.SetDistancePerPulse(0.02 / 360.0); // Example for a 360 PPR encoder
+  //m_leftBarEncoder.SetDistancePerPulse(0.02 / 360.0); // Example for a 360 PPR encoder
   
 }
 
 bool FourBarSubsystem::FourBarAtBase() {
 //  return !m_LimitSwitch.Get();
-  if(m_fourBarEncoder.Get() == 0) { // encoder value will need to be changed
+  if(m_leftBarEncoder.GetPosition() == 0 && m_rightBarEncoder.GetPosition() == 0) { // encoder value will need to be changed
     return true;
   }
   else {
@@ -68,12 +72,13 @@ void FourBarSubsystem::Periodic() {
   UpdateNTE();
 
 //  if (FourBarAtBase())
-//   m_fourBarEncoder.Reset(); I don't think this works for our encoders but not sure
+//   m_leftBarEncoder.Reset(); //I don't think this works for our encoders but not sure
 }
 
 void FourBarSubsystem::UpdateNTE() {
-  m_FourBarLimitSwitch.SetBoolean(FourBarAtBase());
-  m_FourBarDistance.SetDouble(m_fourBarEncoder.GetDistance());
+//  m_FourBarLimitSwitch.SetBoolean(FourBarAtBase());
+  nte_leftFourBarDistance.SetDouble(m_leftBarEncoder.GetPosition());
+  nte_rightFourBarDistance.SetDouble(m_rightBarEncoder.GetPosition());
 }
 
 void FourBarSubsystem::SetFourBarPower(double power) {
@@ -87,7 +92,6 @@ void FourBarSubsystem::SetFourBarPower(double power) {
     else {
      */
     m_leftFourBarSparkMax.Set(power);
-    m_rightFourBarSparkMax.Set(power);
     }
   //}}
   

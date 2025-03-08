@@ -61,8 +61,9 @@ class FourBarSubsystem : public frc2::SubsystemBase {
 
  private:
 
-  nt::NetworkTableEntry m_FourBarLimitSwitch;
-  nt::NetworkTableEntry m_FourBarDistance;
+  //  nt::NetworkTableEntry nte_FourBarLimitSwitch;
+  nt::NetworkTableEntry nte_leftFourBarDistance;
+  nt::NetworkTableEntry nte_rightFourBarDistance;
 
   // Motor Controllers
   rev::spark::SparkMax m_leftFourBarSparkMax{FourBarConstants::kLeftBarMotorID, FourBarConstants::kMotorType};
@@ -70,7 +71,9 @@ class FourBarSubsystem : public frc2::SubsystemBase {
 
   
   // Encoders motor controllers
-  frc::Encoder m_fourBarEncoder{FourBarConstants::kFourBarSensA, FourBarConstants::kFourBarSensB};  
+  //  frc::Encoder m_fourBarEncoder{FourBarConstants::kFourBarSensA, FourBarConstants::kFourBarSensB};  
+  rev::spark::SparkRelativeEncoder m_leftBarEncoder = m_leftFourBarSparkMax.GetEncoder();
+  rev::spark::SparkRelativeEncoder m_rightBarEncoder = m_rightFourBarSparkMax.GetEncoder();
 
   // // Limit switch is a digital input in the DIO port (digital input output)
   // frc::DigitalInput m_LimitSwitch{FourBarConstants::kLimitSwitchPort};
