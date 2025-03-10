@@ -271,6 +271,28 @@ namespace BackRightCamera {
 
 } // namespace CameraConstants
 
+namespace IntakeConstants {
+// Intake motor 
+constexpr int kRightAlgaeIntakeMotorID = 26;
+constexpr int kLeftAlgaeIntakeMotorID = 36;
+constexpr int kPitchMotorID = 27;
+constexpr int kLightSensorID = 3;
+
+//PID Values
+constexpr int kPitchP = 0;
+constexpr int kPitchI = 0;
+constexpr int kPitchD = 0;
+constexpr int kPitchFF = 0;
+
+constexpr int kPitchMinOutput = -1;
+constexpr int kPitchMaxOutput = 1;
+
+constexpr units::ampere_t kAlgaeIntakeMotorCurrentLimit = 40_A;
+constexpr rev::spark::SparkLowLevel::MotorType kMotorType = rev::spark::SparkLowLevel::MotorType::kBrushless;
+constexpr rev::spark::SparkMaxConfig::IdleMode kIntakeMotorIdleMode = rev::spark::SparkMaxConfig::IdleMode::kBrake;
+}
+
+
 namespace FourBarConstants {
     constexpr int kLeftBarMotorID = 0;
     constexpr int kRightBarMotorID = 0;
