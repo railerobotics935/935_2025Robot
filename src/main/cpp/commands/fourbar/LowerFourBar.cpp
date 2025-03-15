@@ -20,7 +20,7 @@ void LowerFourBar::Initialize() {
 
 void LowerFourBar::Execute() {
   // Main execute loop that runs during the command
-  m_fourBar->SetFourBarPower(-1.0);
+  m_fourBar->SetFourBarPower(-0.3);
 }
 
 bool LowerFourBar::IsFinished() {

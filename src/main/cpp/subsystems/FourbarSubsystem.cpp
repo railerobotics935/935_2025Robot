@@ -31,7 +31,7 @@ rev::spark::SparkMaxConfig leftBarSparkMaxConfig{};
   .VoltageCompensation(RobotConstants::kVoltageCompensationValue)
   .SetIdleMode(kRightBarMotorIdleMode)
   .SmartCurrentLimit(kRightBarMotorCurrentLimit.value())
-  .Follow(kLeftBarMotorID, true); // This boolean decides if the right is inverted from the left, change it if it's wrong
+  .Follow(kLeftBarMotorID, false); // This boolean decides if the right is inverted from the left, change it if it's wrong
 
   rightBarSparkMaxConfig.encoder
   .PositionConversionFactor(kRightBarEncoderPositionFactor)

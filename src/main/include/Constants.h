@@ -273,10 +273,10 @@ namespace BackRightCamera {
 
 namespace IntakeConstants {
 // Intake motor 
-constexpr int kRightAlgaeIntakeMotorID = 26;
-constexpr int kLeftAlgaeIntakeMotorID = 36;
-constexpr int kPitchMotorID = 27;
-constexpr int kLightSensorID = 3;
+constexpr int kRightAlgaeIntakeMotorID = 24;
+constexpr int kLeftAlgaeIntakeMotorID = 23;
+constexpr int kPitchMotorID = 22;
+//constexpr int kLightSensorID = 3;
 
 //PID Values
 constexpr int kPitchP = 0;
@@ -294,23 +294,23 @@ constexpr rev::spark::SparkMaxConfig::IdleMode kIntakeMotorIdleMode = rev::spark
 
 
 namespace FourBarConstants {
-    constexpr int kLeftBarMotorID = 0;
-    constexpr int kRightBarMotorID = 0;
+    constexpr int kLeftBarMotorID = 12;
+    constexpr int kRightBarMotorID = 17;
     
     constexpr rev::spark::SparkMaxConfig::IdleMode kLeftBarMotorIdleMode =  rev::spark::SparkMaxConfig::IdleMode::kBrake;
     constexpr units::ampere_t kLeftBarMotorCurrentLimit = 40_A;
     constexpr rev::spark::SparkMaxConfig::IdleMode kRightBarMotorIdleMode =  rev::spark::SparkMaxConfig::IdleMode::kBrake;
     constexpr units::ampere_t kRightBarMotorCurrentLimit = 40_A;
     
-    constexpr double kLeftBarEncoderPositionFactor = 0;
-    constexpr double kLeftBarEncoderVelocityFactor = 0;
-    constexpr double kRightBarEncoderPositionFactor = 0;
-    constexpr double kRightBarEncoderVelocityFactor = 0;
+    constexpr double kLeftBarEncoderPositionFactor = 1;
+    constexpr double kLeftBarEncoderVelocityFactor = 1;
+    constexpr double kRightBarEncoderPositionFactor = 1;
+    constexpr double kRightBarEncoderVelocityFactor = 1;
 
     constexpr rev::spark::SparkLowLevel::MotorType kMotorType = rev::spark::SparkLowLevel::MotorType::kBrushless;
 
-    constexpr int kFourBarSensA = 0;
-    constexpr int kFourBarSensB = 1;
+    //constexpr int kFourBarSensA = 0;
+    //constexpr int kFourBarSensB = 1;
 
     constexpr bool kRightBarEncoderInverted = true;
 
@@ -318,7 +318,7 @@ namespace FourBarConstants {
 } // namespace FourBarConstants
 
 namespace ClimberConstants {
-    constexpr int kClimberMotorID = 0;
+    constexpr int kClimberMotorID = 13;
     constexpr rev::spark::SparkLowLevel::MotorType kMotorType = rev::spark::SparkLowLevel::MotorType::kBrushless;
     constexpr rev::spark::SparkMaxConfig::IdleMode kClimberMotorIdleMode =  rev::spark::SparkMaxConfig::IdleMode::kBrake;
     constexpr units::ampere_t kClimberMotorCurrentLimit = 40_A;

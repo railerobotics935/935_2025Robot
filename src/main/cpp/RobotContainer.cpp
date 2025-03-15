@@ -51,6 +51,8 @@ RobotContainer::RobotContainer() {
   // The left stick controls translation of the robot.
   // Turning is controlled by the X axis of the right stick.
   m_drive.SetDefaultCommand(std::move(m_driveWithController));
+  m_climber.SetDefaultCommand(std::move(m_stopClimber));
+  m_fourBar.SetDefaultCommand(std::move(m_stopFourBar));
   
   frc::Shuffleboard::GetTab("Autonomous").Add(m_autoChooser);
 }

@@ -26,8 +26,10 @@
 #include "commands/drive/DriveWithController.h"
 #include "commands/climber/SimpleClimb.h"
 #include "commands/climber/SimpleDescend.h"
+#include "commands/climber/StopClimber.h"
 #include "commands/fourbar/LowerFourBar.h"
 #include "commands/fourbar/RaiseFourBar.h"
+#include "commands/fourbar/StopFourBar.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -68,5 +70,11 @@ class RobotContainer {
   frc::SendableChooser<std::string> m_autoChooser;
 
   DriveWithController m_driveWithController{&m_drive, &m_driveController};
+  StopFourBar m_stopFourBar{&m_fourBar};
+  RaiseFourBar m_raiseFourBar{&m_fourBar};
+  LowerFourBar m_lowerFourBar{&m_fourBar};
+  SimpleClimb m_simpleClimb{&m_climber};
+  SimpleDescend m_simpleDescend{&m_climber};
+  StopClimber m_stopClimber{&m_climber};
 
 };

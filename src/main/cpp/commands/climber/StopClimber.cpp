@@ -3,35 +3,35 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "Constants.h"
-#include "commands/fourbar/RaiseFourBar.h"
+#include "commands/climber/StopClimber.h"
 
-RaiseFourBar::RaiseFourBar(FourBarSubsystem* fourBar)
-    : m_fourBar{fourBar}    {
+StopClimber::StopClimber(ClimberSubsystem* climber)
+    : m_climber{climber}  {
   // Register that this command requires the subsystem.
-  AddRequirements(m_fourBar);
+  AddRequirements(m_climber);
 }
 
-void RaiseFourBar::Initialize() {
+void StopClimber::Initialize() {
   // Run once when command is scheduled
 #ifdef PRINTDEBUG
-  std::cout << "RaiseFourBar Initialized\r\n";
+  std::cout << "StopClimber Initialized\r\n";
 #endif
 }
 
-void RaiseFourBar::Execute() {
+void StopClimber::Execute() {
   // Main execute loop that runs during the command
-  m_fourBar->SetFourBarPower(0.3);
+  m_climber->SetMotorPower(0.0);
 }
 
-bool RaiseFourBar::IsFinished() {
+bool StopClimber::IsFinished() {
   // You can make a custom state to end the command and then return true
   return false;
 }
 
-void RaiseFourBar::End(bool interrupted) {
+void StopClimber::End(bool interrupted) {
   // Runs once when the command is removed from the command scheduler
+  m_climber->SetMotorPower(0.0);
 #ifdef PRINTDEBUG
-  std::cout << "RaiseFourBar Ended\r\n";
+  std::cout << "StopClimber Ended\r\n";
 #endif
-    m_fourBar->SetFourBarPower(0.0);
 }
