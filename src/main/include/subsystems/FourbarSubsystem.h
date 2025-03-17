@@ -33,24 +33,31 @@ class FourBarSubsystem : public frc2::SubsystemBase {
   void Periodic() override; 
 
   /**
-   * @returns True if the base elevator limit switch is pressed
+   * @returns True if the base fourbar limit switch is pressed
   */
   bool ElevatorAtBase();
 
   /**
-   * @returns True if the upper elevator limit switch is pressed
+   * @returns True if the upper fourbar limit switch is pressed
   */
   bool ElevatorRisen();
 
   /**
-   * Set the elevator motor to a power
+   * Set the fourbar motor to a power
    * 
    * @param power Power to set the motor power
   */
   void SetFourBarPower(double power);
 
   /**
-   * Set the elevator motor power invidualy
+   * Set the fourbar height
+   * 
+   * @param height Height to set the fourbar
+   */
+  void SetFourBarHeight(double height);
+
+  /**
+   * Set the fourbar motor power invidualy
   */
   void SetIndividualElevatorPower(double power);
 
@@ -69,11 +76,13 @@ class FourBarSubsystem : public frc2::SubsystemBase {
   rev::spark::SparkMax m_leftFourBarSparkMax{FourBarConstants::kLeftBarMotorID, FourBarConstants::kMotorType};
   rev::spark::SparkMax m_rightFourBarSparkMax{FourBarConstants::kRightBarMotorID, FourBarConstants::kMotorType};
 
+  // PID Controller for FourBar
+  rev::spark::SparkClosedLoopController m_fourBarPIDController = m_leftFourBarSparkMax.GetClosedLoopController();
   
   // Encoders motor controllers
   //  frc::Encoder m_fourBarEncoder{FourBarConstants::kFourBarSensA, FourBarConstants::kFourBarSensB};  
-  rev::spark::SparkRelativeEncoder m_leftBarEncoder = m_leftFourBarSparkMax.GetEncoder();
-  rev::spark::SparkRelativeEncoder m_rightBarEncoder = m_rightFourBarSparkMax.GetEncoder();
+  rev::spark::SparkAbsoluteEncoder m_leftBarEncoder = m_leftFourBarSparkMax.GetAbsoluteEncoder();
+  rev::spark::SparkAbsoluteEncoder m_rightBarEncoder = m_rightFourBarSparkMax.GetAbsoluteEncoder();
 
   // // Limit switch is a digital input in the DIO port (digital input output)
   // frc::DigitalInput m_LimitSwitch{FourBarConstants::kLimitSwitchPort};

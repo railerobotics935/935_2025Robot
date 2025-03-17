@@ -21,10 +21,9 @@ class SimpleClimb
     : public frc2::CommandHelper<frc2::Command, SimpleClimb> {
  public:
   /**
-   * Creates a new DriveWithController.
+   * Creates a new SimpleClimb.
    *
-   * @param drive The pointer to the drive subsystem
-   * @param driveController The pointer to the drive controller
+   * @param climber The pointer to the climber subsystem
    */
   explicit SimpleClimb(ClimberSubsystem* climber);
 

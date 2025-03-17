@@ -30,6 +30,7 @@
 #include "commands/fourbar/LowerFourBar.h"
 #include "commands/fourbar/RaiseFourBar.h"
 #include "commands/fourbar/StopFourBar.h"
+#include "commands/fourbar/FourBarL4.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -73,6 +74,7 @@ class RobotContainer {
   StopFourBar m_stopFourBar{&m_fourBar};
   RaiseFourBar m_raiseFourBar{&m_fourBar};
   LowerFourBar m_lowerFourBar{&m_fourBar};
+  FourBarL4 m_fourBarL4{&m_fourBar};
   SimpleClimb m_simpleClimb{&m_climber};
   SimpleDescend m_simpleDescend{&m_climber};
   StopClimber m_stopClimber{&m_climber};

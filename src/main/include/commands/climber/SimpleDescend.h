@@ -21,10 +21,9 @@ class SimpleDescend
     : public frc2::CommandHelper<frc2::Command, SimpleDescend> {
  public:
   /**
-   * Creates a new DriveWithController.
+   * Creates a new SimpleDescend.
    *
-   * @param drive The pointer to the drive subsystem
-   * @param driveController The pointer to the drive controller
+   * @param climber The pointer to the climber subsystem
    */
   explicit SimpleDescend(ClimberSubsystem* climber);
 

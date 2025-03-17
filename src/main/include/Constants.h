@@ -307,6 +307,18 @@ namespace FourBarConstants {
     constexpr double kRightBarEncoderPositionFactor = 1;
     constexpr double kRightBarEncoderVelocityFactor = 1;
 
+    constexpr double kFourBarP = 1.0;
+    constexpr double kFourBarI = 0.0;
+    constexpr double kFourBarD = 0.0;
+    constexpr double kFourBarFF = 0.0;
+ 
+    constexpr double kMaximumHeight = 0.0;
+    constexpr double kMinimumHeight = 0.0;
+
+    // Maximum outputs that PID can give
+    constexpr int kMinimumOutput = -1;
+    constexpr int kMaximumOutput = 1;
+
     constexpr rev::spark::SparkLowLevel::MotorType kMotorType = rev::spark::SparkLowLevel::MotorType::kBrushless;
 
     //constexpr int kFourBarSensA = 0;

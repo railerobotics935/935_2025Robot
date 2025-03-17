@@ -17,15 +17,15 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class LowerFourBar
-    : public frc2::CommandHelper<frc2::Command, LowerFourBar> {
+class FourBarL4
+    : public frc2::CommandHelper<frc2::Command, FourBarL4> {
  public:
   /**
-   * Creates a new LowerFourBar.
+   * Creates a new FourBarL4.
    *
    * @param fourbar The pointer to the fourbar subsystem
    */
-  explicit LowerFourBar(FourBarSubsystem* fourBar);
+  explicit FourBarL4(FourBarSubsystem* fourBar);
 
   void Initialize() override; // Initializes
   void Execute() override; // Main loop that runs

@@ -21,10 +21,9 @@ class StopClimber
     : public frc2::CommandHelper<frc2::Command, StopClimber> {
  public:
   /**
-   * Creates a new DriveWithController.
+   * Creates a new StopClimber.
    *
-   * @param drive The pointer to the drive subsystem
-   * @param driveController The pointer to the drive controller
+   * @param climber The pointer to the climber subsystem
    */
   explicit StopClimber(ClimberSubsystem* climber);
 

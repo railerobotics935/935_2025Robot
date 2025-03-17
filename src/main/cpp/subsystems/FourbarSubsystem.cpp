@@ -23,6 +23,10 @@ rev::spark::SparkMaxConfig leftBarSparkMaxConfig{};
   .PositionConversionFactor(kLeftBarEncoderPositionFactor)
   .VelocityConversionFactor(kLeftBarEncoderVelocityFactor);
 
+  leftBarSparkMaxConfig.closedLoop
+  .Pidf(kFourBarP, kFourBarI, kFourBarD, kFourBarFF)
+  .OutputRange(kMinimumOutput, kMaximumOutput);
+
   m_leftFourBarSparkMax.Configure(leftBarSparkMaxConfig, rev::spark::SparkMax::ResetMode::kResetSafeParameters, rev::spark::SparkMax::PersistMode::kPersistParameters);  
 
   rev::spark::SparkMaxConfig rightBarSparkMaxConfig{};
@@ -95,4 +99,16 @@ void FourBarSubsystem::SetFourBarPower(double power) {
     }
   //}}
   
+  void FourBarSubsystem::SetFourBarHeight(double height) {
+    //Prevents FourBar from going too high
+    if (height > kMaximumHeight) {
+      height = kMaximumHeight;
+    }
+    // Prevents FourBar from going too low
+    if (height < kMinimumHeight) {
+      height = kMinimumHeight;
+    }
+
+    m_fourBarPIDController.SetReference(height, rev::spark::SparkLowLevel::ControlType::kPosition);
+  }
 

@@ -21,10 +21,9 @@ class RaiseFourBar
     : public frc2::CommandHelper<frc2::Command, RaiseFourBar> {
  public:
   /**
-   * Creates a new DriveWithController.
+   * Creates a new RaiseFourBar.
    *
-   * @param drive The pointer to the drive subsystem
-   * @param driveController The pointer to the drive controller
+   * @param fourbar The pointer to the fourbar subsystem
    */
   explicit RaiseFourBar(FourBarSubsystem* fourBar);
 

@@ -53,6 +53,8 @@ RobotContainer::RobotContainer() {
   m_drive.SetDefaultCommand(std::move(m_driveWithController));
   m_climber.SetDefaultCommand(std::move(m_stopClimber));
   m_fourBar.SetDefaultCommand(std::move(m_stopFourBar));
+
+  NamedCommands::registerCommand("FourBar L4", std::move(m_fourBarL4).ToPtr());
   
   frc::Shuffleboard::GetTab("Autonomous").Add(m_autoChooser);
 }
