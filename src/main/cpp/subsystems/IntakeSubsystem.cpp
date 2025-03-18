@@ -26,36 +26,6 @@ void IntakeSubsystem::SetIntakeMotorPower(double power) {
   m_leftIntakeSparkMax.Set(power);
 }
 
- void IntakeSubsystem::SetPitchPosition(double setAngle) {
-  // Use the Spark MAX internal PID controller to reach the setAngle
-  // - downward is counterclockwise along the robot Y-axis => positive direction for Angle
-  // - check intake rotates down when applying a positive value to the SetPitchPower method,
-  //   if this is not the case, invert the Pitch Spark MAX motor controller.
-  // - check absolute encoder on the pitch angle to have an increasing value when rotating downward
-  //   if this is not the case, add minus sign to m_pitchAbsoluteEncoder.GetPosition() references.
-  m_pitchPIDController.SetReference(setAngle.value(), rev::spark::SparkLowLevel::ControlType::kPosition);
-
-  // Automatically disable control control direction goes outside mechanical operating limits
-  // - IntakeConstants::kMinimumAngle sets the upper pitch limit, this is the lowest angle value
-  // - IntakeConstants::kMaximumAngle sets the downward pitch limit, this is the highest angle value
-
-  // Limit Pitch going too far up
-  if (setAngle < IntakeConstants::kMinimumAngle) {
-   setAngle = IntakeConstants::kMinimumAngle;
-  }
-
-  // Limit Pitch going too far down
-  if ((m_pitchAbsoluteEncoder.GetPosition() > IntakeConstants::kMaximumAngle) &&
-      (m_pitchSparkMax.Get() > 0.0)) {
-    m_pitchSparkMax.Set(0.0);
-  }
-}
-
-/*
-void IntakeSubsystem::SetPitchPower(double power) {
-  m_pitchSparkMax.Set(power);
-}
-*/
 
 double IntakeSubsystem::SignedSquare(double input) {
   if (input > 0) {

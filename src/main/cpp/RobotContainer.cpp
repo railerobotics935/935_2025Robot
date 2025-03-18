@@ -53,6 +53,8 @@ RobotContainer::RobotContainer() {
   m_drive.SetDefaultCommand(std::move(m_driveWithController));
   m_climber.SetDefaultCommand(std::move(m_stopClimber));
   m_fourBar.SetDefaultCommand(std::move(m_stopFourBar));
+  m_intakePitch.SetDefaultCommand(std::move(m_stopIntakePitch));
+  m_intake.SetDefaultCommand(std::move(m_intakeWithTrigger));
 
   NamedCommands::registerCommand("FourBar L4", std::move(m_fourBarL4).ToPtr());
   
@@ -81,7 +83,7 @@ void RobotContainer::ConfigureButtonBindings() {
   lowerFourBarButton.WhileTrue(LowerFourBar{&m_fourBar}.ToPtr());
   raiseFourBarButton.WhileTrue(RaiseFourBar{&m_fourBar}.ToPtr());
   lowerIntakePitchButton.WhileTrue(LowerIntakePitch{&m_intakePitch}.ToPtr());
-  raiseIntakePitchButton.WhileTrue(raiseIntakePitchButton{&m_intakePitch}.ToPtr());
+  raiseIntakePitchButton.WhileTrue(RaiseIntakePitch{&m_intakePitch}.ToPtr());
 
 }
 

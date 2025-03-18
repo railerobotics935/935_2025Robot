@@ -10,12 +10,12 @@
 #include <frc/DigitalInput.h>
 #include <Constants.h>
 
-class AlgaeIntakeSubsystem : public frc2::SubsystemBase {
+class IntakeSubsystem : public frc2::SubsystemBase {
  public:
   /**
    * Picks up game pieces
   */
-  AlgaeIntakeSubsystem();
+  IntakeSubsystem();
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -23,12 +23,7 @@ class AlgaeIntakeSubsystem : public frc2::SubsystemBase {
   void Periodic() override;
 
   // Sets the motor's power (between -1.0 and 1.0).
-  void SetAlgaeIntakeMotorPower(double power);
-
-  // Sets the motor's power (between -1.0 and 1.0).
-  //void SetPitchPosition(units::radian_t setAngle);
-
-  //void SetPitchPower(double power);
+  void SetIntakeMotorPower(double power);
 
   /**
    * @return Direction pitch motor is moving
@@ -47,23 +42,22 @@ class AlgaeIntakeSubsystem : public frc2::SubsystemBase {
 
  private:
 
-  void ConfigureAlgaeSparkMax();
+  void ConfigureIntakeSparkMax();
 
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
 
   // Motor Controllers
-  rev::spark::SparkMax m_rightAlgaeIntakeSparkMax;
-  rev::spark::SparkMax m_leftAlgaeIntakeSparkMax;
-  
-  //rev::spark::SparkMax m_pitchSparkMax;
+  rev::spark::SparkMax m_rightIntakeSparkMax;
+  rev::spark::SparkMax m_leftIntakeSparkMax;
+  rev::spark::SparkMax m_pitchSparkMax;
 
   // Encoders
-  //rev::spark::SparkAbsoluteEncoder m_pitchAbsoluteEncoder = m_pitchSparkMax.GetAbsoluteEncoder();
+  rev::spark::SparkAbsoluteEncoder m_pitchAbsoluteEncoder = m_pitchSparkMax.GetAbsoluteEncoder();
 
   // Light Sensor is a digital input in the DIO port (digital input output)
   //frc::DigitalInput m_lightSensor{IntakeConstants::kLightSensorID};
 
   //PID for the pitch
-  //rev::spark::SparkClosedLoopController m_pitchPIDController = m_pitchSparkMax.GetClosedLoopController();
+  rev::spark::SparkClosedLoopController m_pitchPIDController = m_pitchSparkMax.GetClosedLoopController();
 };

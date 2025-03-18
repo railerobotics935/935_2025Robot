@@ -17,19 +17,19 @@ IntakePitchSubsystem::IntakePitchSubsystem()
   nte_pitchEncoderValue = nt_table->GetEntry("/Pitch Encoder Value");
 
    #ifdef BURNPITCHSPARKMAX
-  rev::spark::SparkMaxConfig PitchSparkMaxConfig{};
+  rev::spark::SparkMaxConfig pitchSparkMaxConfig{};
 
-  PitchSparkMaxConfig
+  pitchSparkMaxConfig
   .VoltageCompensation(RobotConstants::kVoltageCompentationValue)
   .SetIdleMode(IntakeConstants::kPitchMotorIdleMode)
   .SmartCurrentLimit(IntakeConstants::kIntakeMotorCurrentLimit.value());
 
-  PitchSparkMaxConfig.closedLoop
+  pitchSparkMaxConfig.closedLoop
   .Pidf(IntakeConstants::kPitchP, IntakeConstants::kPitchI, IntakeConstants::kPitchD, IntakeConstants::kPitchFF)
   .OutputRange(IntakeConstants::kPitchMinOutput, IntakeConstants::kPitchMaxOutput)
   .SetFeedbackSensor(rev::spark::ClosedLoopConfig::FeedbackSensor::kAbsoluteEncoder);
   
-   m_PitchSparkMax.Configure(PitchSparkMaxConfig, rev::spark::SparkMax::ResetMode::kResetSafeParameters, rev::spark::SparkMax::PersistMode::kPersistParameters);
+   m_pitchSparkMax.Configure(pitchSparkMaxConfig, rev::spark::SparkMax::ResetMode::kResetSafeParameters, rev::spark::SparkMax::PersistMode::kPersistParameters);
 
   std::cout << "Flash Burned on pitch subsystem\r\n";
   #else
@@ -39,12 +39,12 @@ IntakePitchSubsystem::IntakePitchSubsystem()
 
 void IntakePitchSubsystem::Periodic() {
   // Implementation of subsystem periodic method goes here.
-  nte_pitchEncoderValue.SetDouble(m_PitchAbsoluteEncoder.GetPosition());
+  nte_pitchEncoderValue.SetDouble(m_pitchAbsoluteEncoder.GetPosition());
 }
 
 double IntakePitchSubsystem::GetIntakeAngle() {
   // Gets the angle of the  intake from encoder 
-  return m_PitchAbsoluteEncoder.GetPosition();
+  return m_pitchAbsoluteEncoder.GetPosition();
 }
 
 void IntakePitchSubsystem::SetIntakeAngle(double angle) {
@@ -68,9 +68,9 @@ void IntakePitchSubsystem::SetIntakeAngle(double angle) {
     angle = IntakeConstants::kMaximumAngle;
   }
 
-   m_PitchPIDController.SetReference(angle, rev::spark::SparkLowLevel::ControlType::kPosition);
+   m_pitchPIDController.SetReference(angle, rev::spark::SparkLowLevel::ControlType::kPosition);
 }
 
 void IntakePitchSubsystem::SetPitchPower(double power) {
-  m_PitchSparkMax.Set(power);
+  m_pitchSparkMax.Set(power);
 }

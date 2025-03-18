@@ -10,9 +10,9 @@ class RaiseIntakePitch
   : public frc2::CommandHelper<frc2::Command, RaiseIntakePitch> {
 public:
   /**
-   * Creates a new SimpleIntake.
+   * Creates a new RaiseIntakePitch.
    *
-   * @param intake The pointer to the intake subsystem
+   * @param intakePitch The pointer to the intakePitch subsystem
    */
   explicit RaiseIntakePitch(IntakePitchSubsystem *intake);
 
