@@ -21,6 +21,7 @@ void RaiseFourBar::Initialize() {
 void RaiseFourBar::Execute() {
   // Main execute loop that runs during the command
   m_fourBar->SetFourBarPower(0.3);
+  
 }
 
 bool RaiseFourBar::IsFinished() {
