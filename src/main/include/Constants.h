@@ -292,7 +292,7 @@ constexpr int kPitchMinOutput = -1;
 constexpr int kPitchMaxOutput = 1;
 
 constexpr double kMinimumAngle = 0.0;
-constexpr double kMaximumAngle = 0.0;
+constexpr double kMaximumAngle = 0.1;
 
 constexpr units::ampere_t kIntakeMotorCurrentLimit = 40_A;
 constexpr rev::spark::SparkLowLevel::MotorType kMotorType = rev::spark::SparkLowLevel::MotorType::kBrushless;
