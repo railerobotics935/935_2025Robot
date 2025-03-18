@@ -2,29 +2,31 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-#include "subsystems/AlgaeIntakeSubsystem.h"
+#include "subsystems/IntakeSubsystem.h"
 #include "Constants.h"
 
-AlgaeIntakeSubsystem::AlgaeIntakeSubsystem() 
-: m_rightAlgaeIntakeSparkMax{IntakeConstants::kRightAlgaeIntakeMotorID, IntakeConstants::kMotorType},
-  m_leftAlgaeIntakeSparkMax{IntakeConstants::kLeftAlgaeIntakeMotorID, IntakeConstants::kMotorType} {
-
+IntakeSubsystem::IntakeSubsystem() 
+: m_rightIntakeSparkMax{IntakeConstants::kRightIntakeMotorID, IntakeConstants::kMotorType},
+  m_leftIntakeSparkMax{IntakeConstants::kLeftIntakeMotorID, IntakeConstants::kMotorType},
+  m_pitchSparkMax{IntakeConstants::kPitchMotorID, IntakeConstants::kMotorType} {
+    #ifdef BURNINTAKESPARKMAX
+      ConfigureIntakeSparkMax();
+    #endif
 } 
 
   // Implementation of subsystem constructor goes here.
 
 
-void AlgaeIntakeSubsystem::Periodic() {
+void IntakeSubsystem::Periodic() {
   // Implementation of subsystem periodic method goes here.
 }
 
-void AlgaeIntakeSubsystem::SetAlgaeIntakeMotorPower(double power) {
+void IntakeSubsystem::SetIntakeMotorPower(double power) {
   // Sets the motor's power (between -1.0 and 1.0). 
-  m_rightAlgaeIntakeSparkMax.Set(power);
-  m_leftAlgaeIntakeSparkMax.Set(power);
+  m_leftIntakeSparkMax.Set(power);
 }
 
-/* void AlgaeIntakeSubsystem::SetPitchPosition(units::radian_t setAngle) {
+ void IntakeSubsystem::SetPitchPosition(double setAngle) {
   // Use the Spark MAX internal PID controller to reach the setAngle
   // - downward is counterclockwise along the robot Y-axis => positive direction for Angle
   // - check intake rotates down when applying a positive value to the SetPitchPower method,
@@ -38,9 +40,8 @@ void AlgaeIntakeSubsystem::SetAlgaeIntakeMotorPower(double power) {
   // - IntakeConstants::kMaximumAngle sets the downward pitch limit, this is the highest angle value
 
   // Limit Pitch going too far up
-  if ((m_pitchAbsoluteEncoder.GetPosition() < IntakeConstants::kMinimumAngle) &&
-      (m_pitchSparkMax.Get() < 0.0)) {
-    m_pitchSparkMax.Set(0.0);
+  if (setAngle < IntakeConstants::kMinimumAngle) {
+   setAngle = IntakeConstants::kMinimumAngle;
   }
 
   // Limit Pitch going too far down
@@ -50,11 +51,13 @@ void AlgaeIntakeSubsystem::SetAlgaeIntakeMotorPower(double power) {
   }
 }
 
+/*
 void IntakeSubsystem::SetPitchPower(double power) {
   m_pitchSparkMax.Set(power);
 }
 */
-double AlgaeIntakeSubsystem::SignedSquare(double input) {
+
+double IntakeSubsystem::SignedSquare(double input) {
   if (input > 0) {
     return std::pow(input, 2);
   }
@@ -67,35 +70,35 @@ double AlgaeIntakeSubsystem::SignedSquare(double input) {
   return m_lightSensor.Get();
 }
 */
-void AlgaeIntakeSubsystem::ConfigureAlgaeSparkMax() {
+void IntakeSubsystem::ConfigureIntakeSparkMax() {
   // Configure the Intake Spark MAX
-  rev::spark::SparkMaxConfig rightAlgaeIntakeSparkMaxConfig{};
-  rev::spark::SparkMaxConfig leftAlgaeIntakeSparkMaxConfig{};
+  rev::spark::SparkMaxConfig rightIntakeSparkMaxConfig{};
+  rev::spark::SparkMaxConfig leftIntakeSparkMaxConfig{};
 
 
-  rightAlgaeIntakeSparkMaxConfig
+  rightIntakeSparkMaxConfig
   .VoltageCompensation(RobotConstants::kVoltageCompensationValue)
   .SetIdleMode(IntakeConstants::kIntakeMotorIdleMode)
-  .SmartCurrentLimit(IntakeConstants::kAlgaeIntakeMotorCurrentLimit.value());
+  .SmartCurrentLimit(IntakeConstants::kIntakeMotorCurrentLimit.value())
+  .Follow(IntakeConstants::kLeftIntakeMotorID, true);
 
-  leftAlgaeIntakeSparkMaxConfig
+  leftIntakeSparkMaxConfig
   .VoltageCompensation(RobotConstants::kVoltageCompensationValue)
   .SetIdleMode(IntakeConstants::kIntakeMotorIdleMode)
-  .SmartCurrentLimit(IntakeConstants::kAlgaeIntakeMotorCurrentLimit.value());
+  .SmartCurrentLimit(IntakeConstants::kIntakeMotorCurrentLimit.value());
 
   //intakeSparkMaxConfig.encoder
   //.PositionConversionFactor(kIntakePositionFactor)
   //.VelocityConversionFactor(kIntakeVelocityFactor);
 
-  m_rightAlgaeIntakeSparkMax.Configure(rightAlgaeIntakeSparkMaxConfig, rev::spark::SparkMax::ResetMode::kResetSafeParameters, rev::spark::SparkMax::PersistMode::kPersistParameters);
-  m_leftAlgaeIntakeSparkMax.Configure(rightAlgaeIntakeSparkMaxConfig, rev::spark::SparkMax::ResetMode::kResetSafeParameters, rev::spark::SparkMax::PersistMode::kPersistParameters);
+  m_rightIntakeSparkMax.Configure(rightIntakeSparkMaxConfig, rev::spark::SparkMax::ResetMode::kResetSafeParameters, rev::spark::SparkMax::PersistMode::kPersistParameters);
+  m_leftIntakeSparkMax.Configure(rightIntakeSparkMaxConfig, rev::spark::SparkMax::ResetMode::kResetSafeParameters, rev::spark::SparkMax::PersistMode::kPersistParameters);
 
-}
   // Configure the Pitch Spark MAX
-  //rev::spark::SparkMaxConfig pitchSparkMaxConfig{};
+  rev::spark::SparkMaxConfig pitchSparkMaxConfig{};
 
-  /*pitchSparkMaxConfig
-  .VoltageCompensation(RobotConstants::kVoltageCompentationValue)
+  pitchSparkMaxConfig
+  .VoltageCompensation(RobotConstants::kVoltageCompensationValue)
   .SetIdleMode(IntakeConstants::kIntakeMotorIdleMode)
   .SmartCurrentLimit(IntakeConstants::kIntakeMotorCurrentLimit.value());
 
@@ -106,7 +109,7 @@ void AlgaeIntakeSubsystem::ConfigureAlgaeSparkMax() {
 
   m_pitchSparkMax.Configure(pitchSparkMaxConfig, rev::spark::SparkMax::ResetMode::kResetSafeParameters, rev::spark::SparkMax::PersistMode::kPersistParameters);
 }
-
+/*
 double IntakeSubsystem::GetDirection() {
   return m_pitchSparkMax.Get();
 }
