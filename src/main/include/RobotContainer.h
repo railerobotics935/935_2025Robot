@@ -21,8 +21,6 @@
 #include "subsystems/DriveSubsystem.h"
 #include "subsystems/ClimberSubsystem.h"
 #include "subsystems/FourBarSubsystem.h"
-#include "subsystems/IntakeSubsystem.h"
-#include "subsystems/IntakePitchSubsystem.h"
 
 #include "commands/drive/DriveWithController.h"
 #include "commands/drive/DriveWithController.h"
@@ -33,13 +31,6 @@
 #include "commands/fourbar/RaiseFourBar.h"
 #include "commands/fourbar/StopFourBar.h"
 #include "commands/fourbar/FourBarL4.h"
-#include "commands/intake/RaiseIntakePitch.h"
-#include "commands/intake/LowerIntakePitch.h"
-#include "commands/intake/StopIntakePitch.h"
-#include "commands/intake/IntakeWithTrigger.h"
-#include "commands/intake/SimpleIntake.h"
-#include "commands/intake/SimpleOuttake.h"
-#include "commands/intake/StopIntake.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -75,8 +66,6 @@ class RobotContainer {
   DriveSubsystem m_drive;
   ClimberSubsystem m_climber;
   FourBarSubsystem m_fourBar;
-  IntakeSubsystem m_intake;
-  IntakePitchSubsystem m_intakePitch;
 
   // Sendable chooser for auto
   frc::SendableChooser<std::string> m_autoChooser;
@@ -89,12 +78,5 @@ class RobotContainer {
   SimpleClimb m_simpleClimb{&m_climber};
   SimpleDescend m_simpleDescend{&m_climber};
   StopClimber m_stopClimber{&m_climber};
-  RaiseIntakePitch m_raiseIntakePitch{&m_intakePitch};
-  LowerIntakePitch m_lowerIntakePitch{&m_intakePitch};
-  StopIntakePitch m_stopIntakePitch{&m_intakePitch};
-  IntakeWithTrigger m_intakeWithTrigger{&m_intake, &m_operatorController};
-  SimpleIntake m_simpleIntake{&m_intake};
-  SimpleOuttake m_simpleOuttake{&m_intake};
-  StopIntake m_stopIntake{&m_intake};
 
 };

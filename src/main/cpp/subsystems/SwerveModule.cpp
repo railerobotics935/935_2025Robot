@@ -44,7 +44,6 @@ void SwerveModule::ConfigureSparkMax() {
   driveSparkMaxConfig
   .VoltageCompensation(RobotConstants::kVoltageCompensationValue)
   .SetIdleMode(kDrivingMotorIdleMode)
-  .Inverted(true)
   .SmartCurrentLimit(kDrivingMotorCurrentLimit.value());
 
   driveSparkMaxConfig.absoluteEncoder
@@ -63,9 +62,7 @@ void SwerveModule::ConfigureSparkMax() {
   turningSparkMaxConfig
   .VoltageCompensation(RobotConstants::kVoltageCompensationValue)
   .SetIdleMode(kTurningMotorIdleMode)
-  .Inverted(false)
   .SmartCurrentLimit(kTurningMotorCurrentLimit.value());
-  
 
   turningSparkMaxConfig.absoluteEncoder
   .PositionConversionFactor(kTurningEncoderPositionFactor)

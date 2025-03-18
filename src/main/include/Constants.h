@@ -27,10 +27,10 @@
 
 // Turn this off when there is no new constants need to be burned onto motorcontrollers
 #define BURNMODULESPARKMAX
-#define USEXBOXCONTROLLER
+//#define USEXBOXCONTROLLER
 //#define PRINTDEBUG
 //#define DEBUGPOSEESTIMATION
-#define BURNINTAKESPARKMAX
+//#define
 
 /**
  * The Constants header provides a convenient place for teams to hold robot-wide
@@ -210,8 +210,6 @@ constexpr int kDriveRightXIndex = 4; // An input RIGHT creates a NEGATIVE output
 #ifdef USEXBOXCONTROLLER
 constexpr int kOperatorLeftYIndex = 1; // An input UP creates a NEGATIVE output
 constexpr int kOperatorRightYIndex = 5; // An input UP creates a NEGATIVE output
-constexpr int kOuttakeTriggerIndex = 2;
-constexpr int kIntakeTriggerIndex = 3;
 #else
 constexpr int kOperatorLeftYIndex = 1; // An input UP creates a NEGATIVE output
 constexpr int kOperatorRightYIndex = 3; // An input UP creates a NEGATIVE output
@@ -220,15 +218,13 @@ constexpr int kOperatorRightYIndex = 3; // An input UP creates a NEGATIVE output
 // Drive Controller
 constexpr int kFieldRelativeButtonIndex = 7; // CL
 constexpr int kRobotRelativeButtonIndex = 8; // CR
-constexpr int kResetGyroButtonIndex = 2;     // B
-constexpr int kRaiseClimberButtonIndex = 6;  // RB
-constexpr int kLowerClimberButtonIndex = 5;  // LB
+constexpr int kResetGyroButtonIndex = 2; // B
+constexpr int kRaiseClimberButtonIndex = 6;
+constexpr int kLowerClimberButtonIndex = 5;
 
 // Operator Controller
-constexpr int kLowerFourBarButtonIndex = 5; // LB
-constexpr int kRaiseFourBarButtonIndex = 6; // RB
-constexpr int kRaiseIntakePitchIndex = 4;   // Y
-constexpr int kLowerIntakePitchIndex = 3;   // X
+constexpr int kLowerFourBarButtonIndex = 5;
+constexpr int kRaiseFourBarButtonIndex = 6;
 
 } // namespace ControllerConstants
 
@@ -277,9 +273,9 @@ namespace BackRightCamera {
 
 namespace IntakeConstants {
 // Intake motor 
-constexpr int kRightIntakeMotorID = 24;
-constexpr int kLeftIntakeMotorID = 22;
-constexpr int kPitchMotorID = 23;
+constexpr int kRightAlgaeIntakeMotorID = 24;
+constexpr int kLeftAlgaeIntakeMotorID = 23;
+constexpr int kPitchMotorID = 22;
 //constexpr int kLightSensorID = 3;
 
 //PID Values
@@ -291,10 +287,7 @@ constexpr int kPitchFF = 0;
 constexpr int kPitchMinOutput = -1;
 constexpr int kPitchMaxOutput = 1;
 
-constexpr double kMinimumAngle = 0.0;
-constexpr double kMaximumAngle = 0.1;
-
-constexpr units::ampere_t kIntakeMotorCurrentLimit = 40_A;
+constexpr units::ampere_t kAlgaeIntakeMotorCurrentLimit = 40_A;
 constexpr rev::spark::SparkLowLevel::MotorType kMotorType = rev::spark::SparkLowLevel::MotorType::kBrushless;
 constexpr rev::spark::SparkMaxConfig::IdleMode kIntakeMotorIdleMode = rev::spark::SparkMaxConfig::IdleMode::kBrake;
 }
