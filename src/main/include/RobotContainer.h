@@ -32,11 +32,16 @@
 #include "commands/fourbar/LowerFourBar.h"
 #include "commands/fourbar/RaiseFourBar.h"
 #include "commands/fourbar/StopFourBar.h"
-#include "commands/fourbar/FourBarL4.h"
 #include "commands/intake/IntakeWIthTriggers.h"
 #include "commands/intake/RaiseIntakePitch.h"
 #include "commands/intake/LowerIntakePitch.h"
 #include "commands/intake/StopIntakePitch.h"
+#include "commands/autocommands/SimpleIntake.h"
+#include "commands/autocommands/SimpleOuttake.h"
+#include "commands/autocommands/FourBarToL4.h"
+#include "commands/autocommands/FourBarToIntake.h"
+#include "commands/autocommands/WristToIntake.h"
+#include "commands/autocommands/WristToL4.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -75,6 +80,7 @@ class RobotContainer {
   IntakeSubsystem m_intake;
   IntakePitchSubsystem m_intakePitch;
 
+
   // Sendable chooser for auto
   frc::SendableChooser<std::string> m_autoChooser;
 
@@ -82,7 +88,6 @@ class RobotContainer {
   StopFourBar m_stopFourBar{&m_fourBar};
   RaiseFourBar m_raiseFourBar{&m_fourBar};
   LowerFourBar m_lowerFourBar{&m_fourBar};
-  FourBarL4 m_fourBarL4{&m_fourBar};
   SimpleClimb m_simpleClimb{&m_climber};
   SimpleDescend m_simpleDescend{&m_climber};
   StopClimber m_stopClimber{&m_climber};
@@ -90,5 +95,11 @@ class RobotContainer {
   RaiseIntakePitch m_raiseIntakePitch{&m_intakePitch};
   LowerIntakePitch m_lowerIntakePitch{&m_intakePitch};
   StopIntakePitch m_stopIntakePitch{&m_intakePitch};
+  SimpleIntake m_simpleIntake{&m_intake};
+  SimpleOuttake m_simpleOuttake{&m_intake};
+  FourBarToL4 m_fourBarToL4{&m_fourBar};
+  FourBarToIntake m_fourBarToIntake{&m_fourBar};
+  SetWristToIntake m_setWristToIntake{&m_intakePitch};
+  WristToL4 m_wristToL4{&m_intakePitch};
 
 };

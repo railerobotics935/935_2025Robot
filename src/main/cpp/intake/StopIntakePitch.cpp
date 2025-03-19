@@ -12,7 +12,7 @@ void StopIntakePitch::Initialize() {
 #ifdef PRINTDEBUG
   std::cout << "SimpleIntake Initialized\r\n";
 #endif
-m_intakePitch-> SetPitchPower(0.0);
+  m_intakePitch-> SetPitchPower(0.0);
 
 }
 

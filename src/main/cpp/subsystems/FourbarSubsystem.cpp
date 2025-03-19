@@ -43,10 +43,6 @@ rev::spark::SparkMaxConfig leftBarSparkMaxConfig{};
 
   m_rightFourBarSparkMax.Configure(rightBarSparkMaxConfig, rev::spark::SparkMax::ResetMode::kResetSafeParameters, rev::spark::SparkMax::PersistMode::kPersistParameters);
 
-    
-
-
- // m_elevatorSparkMax.BurnFlash();
 
   // Initialize shuffleboard communication
   auto nt_inst = nt::NetworkTableInstance::GetDefault();
@@ -110,5 +106,10 @@ void FourBarSubsystem::SetFourBarPower(double power) {
     }
 
     m_fourBarPIDController.SetReference(height, rev::spark::SparkLowLevel::ControlType::kPosition);
+  }
+
+  double FourBarSubsystem::GetFourBarHeight() {
+    // returns the position of the leader bar encoder (should apply to follower too)
+    return m_leftBarEncoder.GetPosition();
   }
 

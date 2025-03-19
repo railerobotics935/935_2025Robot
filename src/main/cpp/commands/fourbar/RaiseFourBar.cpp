@@ -16,11 +16,14 @@ void RaiseFourBar::Initialize() {
 #ifdef PRINTDEBUG
   std::cout << "RaiseFourBar Initialized\r\n";
 #endif
+currentFourBarHeight = m_fourBar->GetFourBarHeight();
 }
 
 void RaiseFourBar::Execute() {
   // Main execute loop that runs during the command
-  m_fourBar->SetFourBarPower(0.3);
+  currentFourBarHeight += 0.001;
+  m_fourBar->SetFourBarHeight(currentFourBarHeight);
+  //m_fourBar->SetFourBarPower(0.3);
 }
 
 bool RaiseFourBar::IsFinished() {
@@ -33,5 +36,5 @@ void RaiseFourBar::End(bool interrupted) {
 #ifdef PRINTDEBUG
   std::cout << "RaiseFourBar Ended\r\n";
 #endif
-    m_fourBar->SetFourBarPower(0.0);
+    //m_fourBar->SetFourBarPower(0.0);
 }

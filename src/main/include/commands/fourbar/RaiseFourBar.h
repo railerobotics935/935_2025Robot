@@ -35,6 +35,5 @@ class RaiseFourBar
  private:
   // Declare private subsystem pointers to refrence real subsystmes
   FourBarSubsystem* m_fourBar;
-  frc::XboxController* m_driveController;
-
+  double currentFourBarHeight;
 };

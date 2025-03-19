@@ -294,6 +294,9 @@ constexpr double kMaximumAngle = 0.4;
 constexpr int kPitchMinOutput = -1;
 constexpr int kPitchMaxOutput = 1;
 
+constexpr int kPitchToIntake = 0.4;
+constexpr int kPitchL4 = 0.4;
+
 constexpr units::ampere_t kIntakeMotorCurrentLimit = 20_A;
 constexpr rev::spark::SparkLowLevel::MotorType kMotorType = rev::spark::SparkLowLevel::MotorType::kBrushless;
 constexpr rev::spark::SparkMaxConfig::IdleMode kIntakeMotorIdleMode = rev::spark::SparkMaxConfig::IdleMode::kBrake;
@@ -314,17 +317,19 @@ namespace FourBarConstants {
     constexpr double kRightBarEncoderPositionFactor = 1;
     constexpr double kRightBarEncoderVelocityFactor = 1;
 
-    constexpr double kFourBarP = 1.0;
+    constexpr double kFourBarP = 2.0;
     constexpr double kFourBarI = 0.0;
     constexpr double kFourBarD = 0.0;
     constexpr double kFourBarFF = 0.0;
  
-    constexpr double kMaximumHeight = 0.0;
+    constexpr double kMaximumHeight = 1.0;
     constexpr double kMinimumHeight = 0.0;
 
     // Maximum outputs that PID can give
     constexpr int kMinimumOutput = -1;
     constexpr int kMaximumOutput = 1;
+    constexpr int kFourBarL4 = 1;
+    constexpr int kFourBarIntake = 0;
 
     constexpr rev::spark::SparkLowLevel::MotorType kMotorType = rev::spark::SparkLowLevel::MotorType::kBrushless;
 

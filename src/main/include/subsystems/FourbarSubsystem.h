@@ -20,8 +20,8 @@ class FourBarSubsystem : public frc2::SubsystemBase {
  public:
   FourBarSubsystem();
   /**
-   * Creates a Elevator subsystem.
-   * Currently for both indiviual elevators (two phystical subsystems)
+   * Creates the fourbar subsystem.
+   * Currently for both indiviual fourbars (two phystical subsystems)
    * but coding it as one
   */
 
@@ -32,15 +32,6 @@ class FourBarSubsystem : public frc2::SubsystemBase {
    */
   void Periodic() override; 
 
-  /**
-   * @returns True if the base fourbar limit switch is pressed
-  */
-  bool ElevatorAtBase();
-
-  /**
-   * @returns True if the upper fourbar limit switch is pressed
-  */
-  bool ElevatorRisen();
 
   /**
    * Set the fourbar motor to a power
@@ -56,10 +47,8 @@ class FourBarSubsystem : public frc2::SubsystemBase {
    */
   void SetFourBarHeight(double height);
 
-  /**
-   * Set the fourbar motor power invidualy
-  */
-  void SetIndividualElevatorPower(double power);
+// Gets the height of the FourBar via encoder 
+  double GetFourBarHeight ();
 
   /**
    * Updates NetworkTableEntries
@@ -84,7 +73,5 @@ class FourBarSubsystem : public frc2::SubsystemBase {
   rev::spark::SparkAbsoluteEncoder m_leftBarEncoder = m_leftFourBarSparkMax.GetAbsoluteEncoder();
   rev::spark::SparkAbsoluteEncoder m_rightBarEncoder = m_rightFourBarSparkMax.GetAbsoluteEncoder();
 
-  // // Limit switch is a digital input in the DIO port (digital input output)
-  // frc::DigitalInput m_LimitSwitch{FourBarConstants::kLimitSwitchPort};
 
 };
