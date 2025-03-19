@@ -53,6 +53,8 @@ RobotContainer::RobotContainer() {
   m_drive.SetDefaultCommand(std::move(m_driveWithController));
   m_climber.SetDefaultCommand(std::move(m_stopClimber));
   m_fourBar.SetDefaultCommand(std::move(m_stopFourBar));
+  m_intake.SetDefaultCommand(std::move(m_intakeWithTriggers));
+  m_intakePitch.SetDefaultCommand(std::move(m_stopIntakePitch));
 
   NamedCommands::registerCommand("FourBar L4", std::move(m_fourBarL4).ToPtr());
   
@@ -69,6 +71,8 @@ void RobotContainer::ConfigureButtonBindings() {
   frc2::JoystickButton lowerClimberButton(&m_driveController, ControllerConstants::kLowerClimberButtonIndex);
   frc2::JoystickButton raiseFourBarButton(&m_operatorController, ControllerConstants::kRaiseFourBarButtonIndex);
   frc2::JoystickButton lowerFourBarButton(&m_operatorController, ControllerConstants::kLowerFourBarButtonIndex);
+  frc2::JoystickButton raiseIntakePitchButton(&m_operatorController, ControllerConstants::kRaiseIntakePitchIndex);
+  frc2::JoystickButton lowerIntakePitchButton(&m_operatorController, ControllerConstants::kLowerIntakePitchIndex);
 
   // Bind commands to button triggers
   resetButton.OnTrue(frc2::cmd::RunOnce([&] {m_drive.ZeroHeading();}, {}));
@@ -78,6 +82,8 @@ void RobotContainer::ConfigureButtonBindings() {
   raiseClimberButton.WhileTrue(SimpleClimb{&m_climber}.ToPtr());
   lowerFourBarButton.WhileTrue(LowerFourBar{&m_fourBar}.ToPtr());
   raiseFourBarButton.WhileTrue(RaiseFourBar{&m_fourBar}.ToPtr());
+  raiseIntakePitchButton.WhileTrue(RaiseIntakePitch{&m_intakePitch}.ToPtr());
+  lowerIntakePitchButton.WhileTrue(LowerIntakePitch{&m_intakePitch}.ToPtr());
 
 }
 

@@ -27,8 +27,8 @@
 
 // Turn this off when there is no new constants need to be burned onto motorcontrollers
 #define BURNMODULESPARKMAX
-//#define USEXBOXCONTROLLER
-//#define PRINTDEBUG
+#define USEXBOXCONTROLLER
+#define PRINTDEBUG
 //#define DEBUGPOSEESTIMATION
 //#define
 
@@ -210,6 +210,8 @@ constexpr int kDriveRightXIndex = 4; // An input RIGHT creates a NEGATIVE output
 #ifdef USEXBOXCONTROLLER
 constexpr int kOperatorLeftYIndex = 1; // An input UP creates a NEGATIVE output
 constexpr int kOperatorRightYIndex = 5; // An input UP creates a NEGATIVE output
+constexpr int kOuttakeTriggerIndex = 2;
+constexpr int kIntakeTriggerIndex = 3;
 #else
 constexpr int kOperatorLeftYIndex = 1; // An input UP creates a NEGATIVE output
 constexpr int kOperatorRightYIndex = 3; // An input UP creates a NEGATIVE output
@@ -225,6 +227,8 @@ constexpr int kLowerClimberButtonIndex = 5;
 // Operator Controller
 constexpr int kLowerFourBarButtonIndex = 5;
 constexpr int kRaiseFourBarButtonIndex = 6;
+constexpr int kRaiseIntakePitchIndex = 4; // Y
+constexpr int kLowerIntakePitchIndex = 3; // X
 
 } // namespace ControllerConstants
 
@@ -273,21 +277,24 @@ namespace BackRightCamera {
 
 namespace IntakeConstants {
 // Intake motor 
-constexpr int kRightAlgaeIntakeMotorID = 24;
-constexpr int kLeftAlgaeIntakeMotorID = 23;
+constexpr int kRightIntakeMotorID = 23;
+constexpr int kLeftIntakeMotorID = 24;
 constexpr int kPitchMotorID = 22;
-//constexpr int kLightSensorID = 3;
+constexpr int kLightSensorID = 0;
 
 //PID Values
-constexpr int kPitchP = 0;
-constexpr int kPitchI = 0;
-constexpr int kPitchD = 0;
-constexpr int kPitchFF = 0;
+constexpr double kPitchP = 0.02;
+constexpr double kPitchI = 0.0;
+constexpr double kPitchD = 0.0;
+constexpr double kPitchFF = 0.0;
+
+constexpr double kMinimumAngle = 0.6;
+constexpr double kMaximumAngle = 0.4;
 
 constexpr int kPitchMinOutput = -1;
 constexpr int kPitchMaxOutput = 1;
 
-constexpr units::ampere_t kAlgaeIntakeMotorCurrentLimit = 40_A;
+constexpr units::ampere_t kIntakeMotorCurrentLimit = 20_A;
 constexpr rev::spark::SparkLowLevel::MotorType kMotorType = rev::spark::SparkLowLevel::MotorType::kBrushless;
 constexpr rev::spark::SparkMaxConfig::IdleMode kIntakeMotorIdleMode = rev::spark::SparkMaxConfig::IdleMode::kBrake;
 }
