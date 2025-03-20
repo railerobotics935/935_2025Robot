@@ -56,7 +56,12 @@ RobotContainer::RobotContainer() {
   m_intake.SetDefaultCommand(std::move(m_intakeWithTriggers));
   m_intakePitch.SetDefaultCommand(std::move(m_stopIntakePitch));
 
-  NamedCommands::registerCommand("FourBar L4", std::move(m_fourBarL4).ToPtr());
+  NamedCommands::registerCommand("Simple Intake", std::move(m_simpleIntake).ToPtr());
+  NamedCommands::registerCommand("Simple Outtake", std::move(m_simpleOuttake).ToPtr());
+  NamedCommands::registerCommand("Four Bar To L4", std::move(m_fourBarToL4).ToPtr());
+  NamedCommands::registerCommand("Four Bar to Intake", std::move(m_fourBarToIntake).ToPtr());
+  NamedCommands::registerCommand("Set Wrist To L4", std::move(m_wristToL4).ToPtr());
+  NamedCommands::registerCommand("Set Wrist to Intake", std::move(m_setWristToIntake).ToPtr());
   
   frc::Shuffleboard::GetTab("Autonomous").Add(m_autoChooser);
 }

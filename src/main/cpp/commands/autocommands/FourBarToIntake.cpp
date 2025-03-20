@@ -30,5 +30,5 @@ void FourBarToIntake::End(bool interrupted) {
   std::cout << "ElevatorSetPoint Ended\r\n";
 #endif
 
-  m_fourBar->SetFourBarPower(0.0);
+  // m_fourBar->SetFourBarPower(0.0);
 }

@@ -19,7 +19,7 @@ void FourBarToL4::Execute() {
 }
 
 bool FourBarToL4::IsFinished(){
-  if (abs(FourBarConstants:kFourBarL4 - m_fourBar->GetHegiht()) < 5.0)
+  if (abs(FourBarConstants::kFourBarL4 - m_fourBar->GetFourBarHeight()) < 0.001)
     return true;
   else
     return false;
@@ -30,5 +30,5 @@ void FourBarToL4::End(bool interrupted) {
   std::cout << "ElevatorSetPoint Ended\r\n";
 #endif
 
-  m_elevator->SetElevatorPower(0.0);
+  // m_fourBar->SetFourBarPower(0.0);
 }

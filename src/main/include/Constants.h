@@ -317,13 +317,13 @@ namespace FourBarConstants {
     constexpr double kRightBarEncoderPositionFactor = 1;
     constexpr double kRightBarEncoderVelocityFactor = 1;
 
-    constexpr double kFourBarP = 2.0;
+    constexpr double kFourBarP = 6.0;
     constexpr double kFourBarI = 0.0;
     constexpr double kFourBarD = 0.0;
     constexpr double kFourBarFF = 0.0;
  
-    constexpr double kMaximumHeight = 1.0;
-    constexpr double kMinimumHeight = 0.0;
+    constexpr double kMaximumHeight = 0.277;
+    constexpr double kMinimumHeight = 0.498;
 
     // Maximum outputs that PID can give
     constexpr int kMinimumOutput = -1;
@@ -335,8 +335,6 @@ namespace FourBarConstants {
 
     //constexpr int kFourBarSensA = 0;
     //constexpr int kFourBarSensB = 1;
-
-    constexpr bool kRightBarEncoderInverted = true;
 
 
 } // namespace FourBarConstants

@@ -15,7 +15,7 @@ m_intakePitch->SetPitchPosition(IntakeConstants::kPitchToIntake);
 }
 
 bool SetWristToIntake::IsFinished(){
-    if (abs(IntakeConstants::kPitchToIntake - m_intakePitch->GetCoralIntakeAngle()) < 0.001)
+    if (abs(IntakeConstants::kPitchToIntake - m_intakePitch->GetIntakeAngle()) < 0.001)
         return true;
     else
         return false; 

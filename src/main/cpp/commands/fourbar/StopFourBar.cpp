@@ -16,11 +16,13 @@ void StopFourBar::Initialize() {
 #ifdef PRINTDEBUG
   std::cout << "StopFourBar Initialized\r\n";
 #endif
+//currentFourBarHeight = m_fourBar->GetFourBarHeight();
+//m_fourBar->SetFourBarHeight(currentFourBarHeight);
 }
 
 void StopFourBar::Execute() {
   // Main execute loop that runs during the command
-  //m_fourBar->SetFourBarPower(0.0);
+  m_fourBar->SetFourBarPower(0.0);
 }
 
 bool StopFourBar::IsFinished() {
@@ -33,5 +35,5 @@ void StopFourBar::End(bool interrupted) {
 #ifdef PRINTDEBUG
   std::cout << "StopFourBar Ended\r\n";
 #endif
-   // m_fourBar->SetFourBarPower(0.0);
+   m_fourBar->SetFourBarPower(0.0);
 }
