@@ -12,11 +12,11 @@ void LowerIntakePitch::Initialize() {
 #ifdef PRINTDEBUG
   std::cout << "SimpleIntake Initialized\r\n";
 #endif
-  m_intakePitch->SetPitchPower(0.08);
+  m_intakePitch->SetPitchPower(0.15);
 }
 
 void LowerIntakePitch::Execute() {
-  m_intakePitch->SetPitchPower(0.08);
+  m_intakePitch->SetPitchPower(0.15);
 }
 
 void LowerIntakePitch::End(bool interrupted) {

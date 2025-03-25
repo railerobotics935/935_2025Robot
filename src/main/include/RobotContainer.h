@@ -42,6 +42,7 @@
 #include "commands/autocommands/FourBarToIntake.h"
 #include "commands/autocommands/WristToIntake.h"
 #include "commands/autocommands/WristToL4.h"
+#include "commands/autocommands/ResetHome.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -84,6 +85,14 @@ class RobotContainer {
   // Sendable chooser for auto
   frc::SendableChooser<std::string> m_autoChooser;
 
+  //Auto Options Correspoinding to the name of the autos
+
+  std::string m_cLeave = "C Leave";
+  std::string m_mLeave = "M Leave";
+  std::string m_fLeave = "F Leave";
+  std::string m_c5escape = "C5 Escape"; 
+  std::string m_c6r5l = "C 6R&5L";
+
   DriveWithController m_driveWithController{&m_drive, &m_driveController};
   StopFourBar m_stopFourBar{&m_fourBar};
   RaiseFourBar m_raiseFourBar{&m_fourBar};
@@ -101,5 +110,6 @@ class RobotContainer {
   FourBarToIntake m_fourBarToIntake{&m_fourBar};
   SetWristToIntake m_setWristToIntake{&m_intakePitch};
   WristToL4 m_wristToL4{&m_intakePitch};
+  ResetHome m_resetHome{&m_fourBar, &m_intakePitch};
 
 };

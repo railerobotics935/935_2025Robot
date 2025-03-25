@@ -16,8 +16,7 @@ void LowerFourBar::Initialize() {
 #ifdef PRINTDEBUG
   std::cout << "LowerFourBar Initialized\r\n";
 #endif
-  //currentFourBarHeight = m_fourBar->GetFourBarHeight();
-  m_fourBar->SetFourBarPower(-0.3);
+  
 }
 
 void LowerFourBar::Execute() {
@@ -28,6 +27,7 @@ void LowerFourBar::Execute() {
   }
   m_fourBar->SetFourBarHeight(currentFourBarHeight);
   */
+ m_fourBar->SetFourBarPower(-0.8);
 }
 
 bool LowerFourBar::IsFinished() {

@@ -13,6 +13,8 @@
 #include <frc/DigitalInput.h>
 #include <frc/SensorUtil.h>
 #include <frc/Encoder.h>
+#include <units/voltage.h>
+#include <frc/filter/SlewRateLimiter.h>
 
 #include "Constants.h"
 
@@ -66,12 +68,14 @@ class FourBarSubsystem : public frc2::SubsystemBase {
   rev::spark::SparkMax m_rightFourBarSparkMax{FourBarConstants::kRightBarMotorID, FourBarConstants::kMotorType};
 
   // PID Controller for FourBar
-  rev::spark::SparkClosedLoopController m_fourBarPIDController = m_leftFourBarSparkMax.GetClosedLoopController();
-  
+  rev::spark::SparkClosedLoopController m_leftFourBarPIDController = m_leftFourBarSparkMax.GetClosedLoopController();
+  rev::spark::SparkClosedLoopController m_rightFourBarPIDController = m_rightFourBarSparkMax.GetClosedLoopController();
+
   // Encoders motor controllers
   //  frc::Encoder m_fourBarEncoder{FourBarConstants::kFourBarSensA, FourBarConstants::kFourBarSensB};  
   rev::spark::SparkAbsoluteEncoder m_leftBarEncoder = m_leftFourBarSparkMax.GetAbsoluteEncoder();
   rev::spark::SparkAbsoluteEncoder m_rightBarEncoder = m_rightFourBarSparkMax.GetAbsoluteEncoder();
 
+  frc::SlewRateLimiter<units::volts> filter {(units::volt_t)16.0 / 1_s};
 
 };

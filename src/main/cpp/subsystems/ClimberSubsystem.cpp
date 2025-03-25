@@ -9,6 +9,9 @@ using namespace ClimberConstants;
 
 ClimberSubsystem::ClimberSubsystem() : m_climberSparkMax{kClimberMotorID, kMotorType}  {
   // Implementation of subsystem constructor goes here.
+ 
+  ConfigureClimberSparkMax();
+
 }
 
 void ClimberSubsystem::Periodic() {
@@ -29,7 +32,7 @@ void ClimberSubsystem::SetMotorPower(double power) {
 //   }
 // }
 
-void ClimberSubsystem::ConfigureSparkMax() {
+void ClimberSubsystem::ConfigureClimberSparkMax() {
   // Configure the Climber Spark MAX
   rev::spark::SparkMaxConfig climberSparkMaxConfig{};
 

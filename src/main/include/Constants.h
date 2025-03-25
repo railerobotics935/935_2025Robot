@@ -31,6 +31,7 @@
 #define PRINTDEBUG
 //#define DEBUGPOSEESTIMATION
 //#define
+#define FOURBAR_LR_INDEPENDENT
 
 /**
  * The Constants header provides a convenient place for teams to hold robot-wide
@@ -114,7 +115,7 @@ constexpr units::meter_t kWheelCircumference =
     kWheelDiameter * std::numbers::pi;
 
 // 6.75:1 Gear Ratio for Driving Motors
-constexpr double kDrivingMotorReduction = 6.75;
+constexpr double kDrivingMotorReduction = 5.07;
 constexpr double kDriveWheelFreeSpeedRps =
     (kDrivingMotorFreeSpeedRps * kWheelCircumference.value()) /
     kDrivingMotorReduction;
@@ -288,14 +289,14 @@ constexpr double kPitchI = 0.0;
 constexpr double kPitchD = 0.0;
 constexpr double kPitchFF = 0.0;
 
-constexpr double kMinimumAngle = 0.6;
-constexpr double kMaximumAngle = 0.4;
+constexpr double kMinimumAngle = 0.73;
+constexpr double kMaximumAngle = 0.35;
 
 constexpr int kPitchMinOutput = -1;
 constexpr int kPitchMaxOutput = 1;
 
-constexpr int kPitchToIntake = 0.4;
-constexpr int kPitchL4 = 0.4;
+constexpr int kPitchToIntake = 0.38;
+constexpr int kPitchL4 = 0.6;
 
 constexpr units::ampere_t kIntakeMotorCurrentLimit = 20_A;
 constexpr rev::spark::SparkLowLevel::MotorType kMotorType = rev::spark::SparkLowLevel::MotorType::kBrushless;
@@ -328,8 +329,8 @@ namespace FourBarConstants {
     // Maximum outputs that PID can give
     constexpr int kMinimumOutput = -1;
     constexpr int kMaximumOutput = 1;
-    constexpr int kFourBarL4 = 1;
-    constexpr int kFourBarIntake = 0;
+    constexpr int kFourBarL4 = 0.29;
+    constexpr int kFourBarIntake = 0.3;
 
     constexpr rev::spark::SparkLowLevel::MotorType kMotorType = rev::spark::SparkLowLevel::MotorType::kBrushless;
 

@@ -55,7 +55,7 @@ void SwerveModule::ConfigureSparkMax() {
   .OutputRange(kDrivingMinOutput, kDrivingMaxOutput);
 
   m_drivingSparkMax.Configure(driveSparkMaxConfig, rev::spark::SparkMax::ResetMode::kResetSafeParameters, rev::spark::SparkMax::PersistMode::kPersistParameters);
-
+  
 
   rev::spark::SparkMaxConfig turningSparkMaxConfig{};
 
@@ -81,7 +81,6 @@ void SwerveModule::ConfigureSparkMax() {
   
   // Set the PID Controller to use the duty cycle encoder on the swerve
   // module instead of the built in NEO550 encoder.
-  
 
 }
 

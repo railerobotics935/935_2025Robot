@@ -69,7 +69,7 @@ AutoBuilder::configure(
       [this](){ return GetRobotRelativeSpeeds(); }, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
       [this](auto speeds, auto feedforwards){ DriveWithChassisSpeeds(speeds); }, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
       std::make_shared<PPHolonomicDriveController>( // PPHolonomicController is the built in path following controller for holonomic drive trains
-          PIDConstants(AutoConstants::kPTanslationController, AutoConstants::kPTanslationController, AutoConstants::kDTanslationController), // Translation PID constants
+          PIDConstants(AutoConstants::kPTanslationController, AutoConstants::kITanslationController, AutoConstants::kDTanslationController), // Translation PID constants
           PIDConstants(AutoConstants::kPRotationController, AutoConstants::kIRotationController, AutoConstants::kDRotationController) // Rotation PID constants
       ),
       config, // The robot configuration
@@ -154,18 +154,9 @@ void DriveSubsystem::Periodic()
   m_odometry.Update(m_gyro.GetAngle(frc::ADIS16470_IMU::kYaw),
                     {m_frontLeft.GetPosition(), m_frontRight.GetPosition(), 
                     m_backLeft.GetPosition(), m_backRight.GetPosition()});
-
-  m_poseEstimator.Update(m_gyro.GetAngle(frc::ADIS16470_IMU::kYaw), 
-                    {m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
-                    m_backLeft.GetPosition(), m_backRight.GetPosition()});
-
-  // set odometry relative to the apriltag
-  if (GetLinearRobotSpeed() < 1.0 && GetTurnRate() < 20.0)
-    EstimatePoseWithApriltag();
   
   UpdateNTE();
 
-  m_field.SetRobotPose(m_poseEstimator.GetEstimatedPosition());
 
   //m_robotAngleController.SetP(nte_kp.GetDouble(4.5));
   //m_robotAngleController.SetI(nte_ki.GetDouble(0.002));
@@ -193,7 +184,7 @@ void DriveSubsystem::UpdateNTE()
   //nte_br_raw_encoder_voltage.SetDouble(m_backRight.GetEncoderVoltage());
 
   // Set robot position to shuffleboard field
-  m_field.SetRobotPose(m_poseEstimator.GetEstimatedPosition());
+  m_field.SetRobotPose(GetOdometryPose());
 }
 
 void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
@@ -267,7 +258,7 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
       m_fieldRelative
           ? frc::ChassisSpeeds::FromFieldRelativeSpeeds(
                 xSpeedDelivered, ySpeedDelivered, rotDelivered,
-                frc::Rotation2d(units::radian_t{m_gyro.GetAngle(frc::ADIS16470_IMU::IMUAxis::kZ)}))
+                frc::Rotation2d(units::radian_t{m_gyro.GetAngle(frc::ADIS16470_IMU::IMUAxis::kYaw)}))
           : frc::ChassisSpeeds{xSpeedDelivered, ySpeedDelivered, rotDelivered});
 
   m_driveKinematics.DesaturateWheelSpeeds(&states, DriveConstants::kMaxSpeed);

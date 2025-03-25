@@ -23,6 +23,12 @@ rev::spark::SparkMaxConfig leftBarSparkMaxConfig{};
   .PositionConversionFactor(kLeftBarEncoderPositionFactor)
   .VelocityConversionFactor(kLeftBarEncoderVelocityFactor);
 
+  leftBarSparkMaxConfig.absoluteEncoder
+  .Inverted(true)
+  .ZeroOffset(0.670)
+  .PositionConversionFactor(kLeftBarEncoderPositionFactor)
+  .VelocityConversionFactor(kLeftBarEncoderVelocityFactor);
+
   leftBarSparkMaxConfig.closedLoop
   .Pidf(kFourBarP, kFourBarI, kFourBarD, kFourBarFF)
   .OutputRange(kMinimumOutput, kMaximumOutput)
@@ -32,15 +38,33 @@ rev::spark::SparkMaxConfig leftBarSparkMaxConfig{};
 
   rev::spark::SparkMaxConfig rightBarSparkMaxConfig{};
 
+  #ifdef FOURBAR_LR_INDEPENDENT
+  rightBarSparkMaxConfig
+  .VoltageCompensation(RobotConstants::kVoltageCompensationValue)
+  .SetIdleMode(kRightBarMotorIdleMode)
+  .SmartCurrentLimit(kRightBarMotorCurrentLimit.value());
+  #else
   rightBarSparkMaxConfig
   .VoltageCompensation(RobotConstants::kVoltageCompensationValue)
   .SetIdleMode(kRightBarMotorIdleMode)
   .SmartCurrentLimit(kRightBarMotorCurrentLimit.value())
   .Follow(kLeftBarMotorID, false); // This boolean decides if the right is inverted from the left, change it if it's wrong
+  #endif
 
   rightBarSparkMaxConfig.encoder
   .PositionConversionFactor(kRightBarEncoderPositionFactor)
   .VelocityConversionFactor(kRightBarEncoderVelocityFactor);
+
+  rightBarSparkMaxConfig.absoluteEncoder
+  .Inverted(false)
+  .ZeroOffset(0.026)
+  .PositionConversionFactor(kRightBarEncoderPositionFactor)
+  .VelocityConversionFactor(kRightBarEncoderVelocityFactor);
+
+  rightBarSparkMaxConfig.closedLoop
+  .Pidf(kFourBarP, kFourBarI, kFourBarD, kFourBarFF)
+  .OutputRange(kMinimumOutput, kMaximumOutput)
+  .SetFeedbackSensor(rev::spark::ClosedLoopConfig::FeedbackSensor::kAbsoluteEncoder);
 
   m_rightFourBarSparkMax.Configure(rightBarSparkMaxConfig, rev::spark::SparkMax::ResetMode::kResetSafeParameters, rev::spark::SparkMax::PersistMode::kPersistParameters);
 
@@ -61,7 +85,7 @@ rev::spark::SparkMaxConfig leftBarSparkMaxConfig{};
 
 bool FourBarSubsystem::FourBarAtBase() {
 //  return !m_LimitSwitch.Get();
-  if(m_leftBarEncoder.GetPosition() == 0 && m_rightBarEncoder.GetPosition() == 0) { // encoder value will need to be changed
+  if(m_leftBarEncoder.GetPosition() >= 0.5 && m_rightBarEncoder.GetPosition() <= 0.0) { // encoder value will need to be changed
     return true;
   }
   else {
@@ -74,6 +98,7 @@ void FourBarSubsystem::Periodic() {
 
 //  if (FourBarAtBase())
 //   m_leftBarEncoder.Reset(); //I don't think this works for our encoders but not sure
+
 }
 
 void FourBarSubsystem::UpdateNTE() {
@@ -83,34 +108,42 @@ void FourBarSubsystem::UpdateNTE() {
 }
 
 void FourBarSubsystem::SetFourBarPower(double power) {
-  /*if (power < 0.0 && m_elevatorEncoder.GetDistance() < -6.2) {
-   m_elevatorSparkMax.Set(0.0);
-  }
-  else {
-    if (ElevatorAtBase() && power > 0.0)
-     m_elevatorSparkMax.Set(0.0);
-
-    else {
-     */
-    m_leftFourBarSparkMax.Set(power);
-    }
-  //}}
   
-  void FourBarSubsystem::SetFourBarHeight(double height) {
-    //Prevents FourBar from going too high
-    /*if (height < kMaximumHeight) {
-      height = kMaximumHeight;
-    }
-    // Prevents FourBar from going too low
-    if (height > kMinimumHeight) {
-      height = kMinimumHeight;
-    }
-*/
-    m_fourBarPIDController.SetReference(height, rev::spark::SparkLowLevel::ControlType::kPosition);
+    //m_leftFourBarSparkMax.Set(power);
+  #ifdef FOURBAR_LR_INDEPENDENT
+  m_leftFourBarSparkMax.SetVoltage(filter.Calculate((units::volt_t)power * 11.0));
+  m_rightFourBarSparkMax.SetVoltage(filter.Calculate((units::volt_t)power * 11.0));
+  #else
+  m_leftFourBarSparkMax.SetVoltage(filter.Calculate((units::volt_t)power * 11.0));
+  #endif
+
+}
+
+  
+void FourBarSubsystem::SetFourBarHeight(double height) {
+  //Prevents FourBar from going too high
+  /*if (height < kMaximumHeight) {
+    height = kMaximumHeight;
   }
+  // Prevents FourBar from going too low
+  if (height > kMinimumHeight) {
+    height = kMinimumHeight;
+  }
+*/  
+  #ifdef FOURBAR_LR_INDEPENDENT
+  m_leftFourBarPIDController.SetReference(height, rev::spark::SparkLowLevel::ControlType::kPosition);
+  m_rightFourBarPIDController.SetReference(height, rev::spark::SparkLowLevel::ControlType::kPosition);
+//  m_rightFourBarPIDController.SetReference(0.664 - height, rev::spark::SparkLowLevel::ControlType::kPosition);
+
+  #else
+  m_leftFourBarPIDController.SetReference(height, rev::spark::SparkLowLevel::ControlType::kPosition);
+
+  #endif
+
+}
 
   double FourBarSubsystem::GetFourBarHeight() {
-    // returns the position of the leader bar encoder (should apply to follower too)
-    return m_leftBarEncoder.GetPosition();
-  }
+  // returns the position of the leader bar encoder (should apply to follower too)
+  return m_leftBarEncoder.GetPosition();
+}
 

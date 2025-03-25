@@ -26,6 +26,7 @@
 #include "pathplanner/lib/auto/NamedCommands.h"
 
 #include "subsystems/DriveSubsystem.h"
+#include "commands/autocommands/SimpleAuto.h"
 #include "Constants.h"
 
 using namespace DriveConstants;
@@ -62,8 +63,15 @@ RobotContainer::RobotContainer() {
   NamedCommands::registerCommand("Four Bar to Intake", std::move(m_fourBarToIntake).ToPtr());
   NamedCommands::registerCommand("Set Wrist To L4", std::move(m_wristToL4).ToPtr());
   NamedCommands::registerCommand("Set Wrist to Intake", std::move(m_setWristToIntake).ToPtr());
+  NamedCommands::registerCommand("Reset Home", std::move(m_resetHome).ToPtr());
   
   frc::Shuffleboard::GetTab("Autonomous").Add(m_autoChooser);
+
+  m_autoChooser.SetDefaultOption("F Leave", m_fLeave);
+  m_autoChooser.AddOption("C Leave", m_cLeave);
+  m_autoChooser.AddOption("M Leave", m_mLeave);
+  m_autoChooser.AddOption("C5 Escape", m_c5escape); 
+  m_autoChooser.AddOption("C 6R&5L Escape", m_c6r5l);
 }
 
 void RobotContainer::ConfigureButtonBindings() {
@@ -94,5 +102,5 @@ void RobotContainer::ConfigureButtonBindings() {
 
 frc2::CommandPtr RobotContainer::GetAutonomousCommand() {
   // Builds and returns auto commands from pathplanner
-  return PathPlannerAuto(m_autoChooser.GetSelected()).ToPtr();
+  return (SimpleAuto{&m_drive, &m_fourBar, &m_intakePitch}.ToPtr());
 }

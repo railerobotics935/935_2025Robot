@@ -27,7 +27,8 @@ void RaiseFourBar::Execute() {
   }
   m_fourBar->SetFourBarHeight(currentFourBarHeight);
   */
-  m_fourBar->SetFourBarPower(0.3);
+
+  m_fourBar->SetFourBarPower(0.9);
 }
 
 bool RaiseFourBar::IsFinished() {
